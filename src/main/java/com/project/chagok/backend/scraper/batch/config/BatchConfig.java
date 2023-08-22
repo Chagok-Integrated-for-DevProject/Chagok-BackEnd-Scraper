@@ -1,9 +1,10 @@
 package com.project.chagok.backend.scraper.batch.config;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;
+import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
 import com.project.chagok.backend.scraper.batch.reader.OkkyItemReader;
 import com.project.chagok.backend.scraper.batch.tasklet.HolaUrlTasklet;
+import com.project.chagok.backend.scraper.batch.tasklet.InflearnTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.OkkyTasklet;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
@@ -86,6 +87,34 @@ public class BatchConfig {
                 .faultTolerant()
                 .skip(Throwable.class)
                 .skipPolicy(new AlwaysSkipItemSkipPolicy())
+                .build();
+    }
+
+    @Bean
+    @Qualifier("inflearnJob")
+    public Job inflearnJob(@Qualifier("firstInflearnStep") Step firstStep, @Qualifier("secondInflearnChunkStep") Step secondStep) {
+        return new JobBuilder("inflearnJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(firstStep)
+                .next(secondStep)
+                .build();
+    }
+
+    @Bean
+    @Qualifier("firstInflearnStep")
+    public Step firstInflearnStep(InflearnTasklet inflearnTasklet) {
+        return new StepBuilder("firstInflearnStep", jobRepository)
+                .tasklet(inflearnTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    @Qualifier("secondInflearnChunkStep")
+    public Step secondInflearnChunkStep(InflearnItemReader inflearnItemReader, ProejctStudyItemWriter proejctStudyItemWriter) {
+        return new StepBuilder("secondOkkyChunkStep", jobRepository)
+                .<StudyProjectDto, StudyProjectDto>chunk(3, transactionManager)
+                .reader(inflearnItemReader)
+                .writer(proejctStudyItemWriter)
                 .build();
     }
 
