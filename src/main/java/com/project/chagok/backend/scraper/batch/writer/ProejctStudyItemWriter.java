@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class HolaItemWriter implements ItemWriter<StudyProjectDto> {
+public class ProejctStudyItemWriter implements ItemWriter<StudyProjectDto> {
 
     @Override
     public void write(Chunk<? extends StudyProjectDto> chunk) throws Exception {

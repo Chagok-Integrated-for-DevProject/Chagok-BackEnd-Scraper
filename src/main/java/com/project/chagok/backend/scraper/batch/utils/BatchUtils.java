@@ -6,7 +6,8 @@ import org.springframework.batch.item.ExecutionContext;
 
 public class BatchUtils {
 
-    public static final String PARSING_URL_KEY = "parsing url";
+    public static final String HOLA_PARSING_URL_KEY = "hola_parsing_url";
+    public static final String OKKY_PARSING_URL_KEY = "okky_parsing_url";
 
     public static ExecutionContext getExecutionContextOfJob(ChunkContext chunkContext) {
         return chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();

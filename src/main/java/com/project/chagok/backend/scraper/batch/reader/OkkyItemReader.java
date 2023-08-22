@@ -20,8 +20,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,43 +29,62 @@ import static java.lang.Thread.sleep;
 
 @Component
 @Slf4j
-public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
+public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
     private int idx = 0;
+    private final String baseUrl = "https://okky.kr/community/gathering";
 
     @Override
     public StudyProjectDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
-         /*
-        데이터 목록
-        1. 제목
-        2. 작성자
-        3. 작성일
-        4. 기술스택
-        5. 출처
-        6. 타입(프로젝트 or 스터디)
-        7. 본문
+                /*
+            데이터 목록
+            1. 제목
+            2. 작성자
+            3. 작성일
+            4. 기술스택
+            5. 출처
+            6. 타입(프로젝트 or 스터디)
+            7. 본문
          */
 
-        List<String> boardUrls = (List<String>) exc.get(BatchUtils.HOLA_PARSING_URL_KEY);
+        List<String> boardUrls = (List<String>) exc.get(BatchUtils.OKKY_PARSING_URL_KEY);
 
         ObjectMapper objectMapper = new ObjectMapper().configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
+
         Document parser;
 
-        // 게시판 데이터 추출 딜레이
+        JsonNode listItemsJson = null;
+        String apiServerId = null;
+
+        try {
+            parser = Jsoup
+                    .connect(baseUrl)
+                    .ignoreContentType(true)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+                    .get();
+
+            String listItemsString = parser.selectFirst("#__NEXT_DATA__").data();
+
+            listItemsJson = objectMapper.readTree(listItemsString);
+            apiServerId = listItemsJson.get("buildId").asText();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         try {
             sleep(TimeDelay.MEDIUM);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
+
         if (idx < boardUrls.size()) {
 
             String boardUrl = boardUrls.get(idx++);
 
-            // boardId 값으로 api 주소에 대입해서 return
-            String jsonUrl = extractBoardJsonFromUrl(boardUrl);
+            String jsonUrl = extractBoardJsonFromUrl(boardUrl, apiServerId);
 
             try {
                 parser = Jsoup
@@ -79,71 +96,51 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
                 throw new RuntimeException(e);
             }
 
-            // board json 파싱 & jsoup에서 특정 escape 문자열을 encoding 한 것에 \" 로 decoding
+            // board json 파싱
             String boardJsonString = parser.select("body").first().html().replaceAll("\"\\\\&quot;|\\\\&quot;\"", "\\\\\"");
 
-            try {
-                JsonNode boardJson = objectMapper.readTree(boardJsonString);
+            JsonNode boardJson = objectMapper.readTree(boardJsonString);
 
-                String title = boardJson.get("title").asText();
-                String content = boardJson.get("content").toString().replace("\\\"", "\"");
-                String nickname = boardJson.get("author").get("nickName").asText();
-                LocalDateTime createdTime = convertFromDateString(boardJson.get("createdAt").asText());
-                List<String> techStacksList = new ArrayList<>();
-                boardJson.get("language").elements().forEachRemaining(techstack -> techStacksList.add(techstack.asText()));
-                CategoryType category = extractCategoryFromJSon(boardJson.get("type").asText());
+            String title = boardJson.get("pageProps").get("result").get("title").asText();
+            String nickname = boardJson.get("pageProps").get("result").get("displayAuthor").get("nickname").asText();
+            String content = boardJson.get("pageProps").get("result").get("content").get("text").toString().replace("\\\"", "\"");
+            LocalDateTime createdTime = LocalDateTime.parse(boardJson.get("pageProps").get("result").get("dateCreated").asText());
+            List<String> techStacksList = new ArrayList<>();
+            boardJson.get("pageProps").get("result").get("tags").elements().forEachRemaining(techElement -> techStacksList.add(techElement.get("name").asText()));
+            String sourceUrl = boardUrl;
+            CategoryType category = CategoryType.STUDY;
 
+            StudyProjectDto studyProjectDto = StudyProjectDto.builder()
+                    .siteType(SiteType.OKKY)
+                    .title(title)
+                    .content(content)
+                    .nickname(nickname)
+                    .createdDate(createdTime)
+                    .sourceUrl(sourceUrl)
+                    .categoryType(category)
+                    .techList(techStacksList)
+                    .build();
 
-                StudyProjectDto studyProjectDto = StudyProjectDto.builder()
-                        .siteType(SiteType.HOLA)
-                        .title(title)
-                        .content(content)
-                        .nickname(nickname)
-                        .createdDate(createdTime)
-                        .sourceUrl(boardUrl)
-                        .categoryType(category)
-                        .techList(techStacksList)
-                        .build();
-
-                return studyProjectDto;
-
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            return studyProjectDto;
         }
 
         return null;
     }
 
-    private String extractBoardJsonFromUrl(String parsingUrl) {
-        final String BaseJsonUrl = "https://api.holaworld.io/api/posts/";
+    private String extractBoardJsonFromUrl(String parsingUrl, String apiServerId) {
+        final String BaseJsonUrl = "https://okky.kr/_next/data/";
 
-        Pattern regex = Pattern.compile("study/(.+)");
+        Pattern regex = Pattern.compile("articles/(\\d+)");
         Matcher matcher = regex.matcher(parsingUrl);
 
         if (matcher.find()) {
             String extractedBoardId = matcher.group(1);
-            return BaseJsonUrl+extractedBoardId;
+
+
+            return BaseJsonUrl + apiServerId + "/articles/" + extractedBoardId + ".json";
         }
 
         return null;
-    }
-
-    private CategoryType extractCategoryFromJSon(String parsingCategory) {
-        if (parsingCategory.equals("1"))
-            return CategoryType.PROJECT;
-        else if (parsingCategory.equals("2"))
-            return CategoryType.STUDY;
-
-        return null;
-    }
-
-    private LocalDateTime convertFromDateString(String parsingDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-
-        ZonedDateTime zonedDateTime = ZonedDateTime.parse(parsingDate, formatter);
-
-        return zonedDateTime.toLocalDateTime();
     }
 
     @Override
@@ -158,6 +155,4 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
     public ExitStatus afterStep(StepExecution stepExecution) {
         return StepExecutionListener.super.afterStep(stepExecution);
     }
-
-
 }
