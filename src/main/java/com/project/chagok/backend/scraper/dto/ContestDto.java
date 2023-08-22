@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @ToString
-public class HackathonDto {
+public class ContestDto {
 
     private String url;
     private String title;

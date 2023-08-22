@@ -9,6 +9,7 @@ public class BatchUtils {
     public static final String HOLA_PARSING_URL_KEY = "hola_parsing_url";
     public static final String OKKY_PARSING_URL_KEY = "okky_parsing_url";
     public static final String INF_PARSING_URL_KEY = "inf_parsing_url";
+    public static final String CONTEST_PARSING_URL_KEY = "contest_parsing_url";
 
     public static ExecutionContext getExecutionContextOfJob(ChunkContext chunkContext) {
         return chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();

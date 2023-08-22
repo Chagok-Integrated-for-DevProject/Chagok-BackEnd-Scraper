@@ -1,12 +1,16 @@
 package com.project.chagok.backend.scraper.batch.config;
 
+import com.project.chagok.backend.scraper.batch.reader.ContestItemReader;
 import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;
 import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
 import com.project.chagok.backend.scraper.batch.reader.OkkyItemReader;
+import com.project.chagok.backend.scraper.batch.tasklet.ContestTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.HolaUrlTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.InflearnTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.OkkyTasklet;
+import com.project.chagok.backend.scraper.batch.writer.ContestItemWriter;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
+import com.project.chagok.backend.scraper.dto.ContestDto;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -118,4 +122,32 @@ public class BatchConfig {
                 .build();
     }
 
+
+    @Bean
+    @Qualifier("contestJob")
+    public Job contestJob(@Qualifier("firstContestStep") Step firstStep, @Qualifier("secondContestChunkStep") Step secondStep) {
+        return new JobBuilder("contestJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(firstStep)
+                .next(secondStep)
+                .build();
+    }
+
+    @Bean
+    @Qualifier("firstContestStep")
+    public Step firstContestStep(ContestTasklet contestTasklet) {
+        return new StepBuilder("firstContestStep", jobRepository)
+                .tasklet(contestTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    @Qualifier("secondContestChunkStep")
+    public Step secondContestChunkStep(ContestItemReader contestItemReader, ContestItemWriter contestItemWriter) {
+        return new StepBuilder("secondContestChunkStep", jobRepository)
+                .<ContestDto, ContestDto>chunk(3, transactionManager)
+                .reader(contestItemReader)
+                .writer(contestItemWriter)
+                .build();
+    }
 }
