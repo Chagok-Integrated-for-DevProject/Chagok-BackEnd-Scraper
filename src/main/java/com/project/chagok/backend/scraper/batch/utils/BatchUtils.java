@@ -1,5 +1,7 @@
 package com.project.chagok.backend.scraper.batch.utils;
 
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
@@ -17,5 +19,9 @@ public class BatchUtils {
 
     public static ExecutionContext getExecutionContextOfJob(StepExecution stepExecution) {
         return stepExecution.getJobExecution().getExecutionContext();
+    }
+
+    public static JobParameters getJobParamOnlyTimeNow() {
+        return new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis()).toJobParameters();
     }
 }

@@ -12,8 +12,11 @@ import com.project.chagok.backend.scraper.batch.writer.ContestItemWriter;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
 import com.project.chagok.backend.scraper.dto.ContestDto;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.JobLocator;
+import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -26,13 +29,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
+@RequiredArgsConstructor
 public class BatchConfig {
 
-    @Autowired
-    JobRepository jobRepository;
+    private final JobRepository jobRepository;
 
-    @Autowired
-    PlatformTransactionManager transactionManager;
+    private final PlatformTransactionManager transactionManager;
 
     @Bean
     @Qualifier("holaJob")
