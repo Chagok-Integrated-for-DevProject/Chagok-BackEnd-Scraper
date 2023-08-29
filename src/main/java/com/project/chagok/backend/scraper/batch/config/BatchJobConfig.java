@@ -1,5 +1,6 @@
 package com.project.chagok.backend.scraper.batch.config;
 
+import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
 import com.project.chagok.backend.scraper.batch.reader.ContestItemReader;
 import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;
 import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
@@ -15,14 +16,11 @@ import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.JobLocator;
-import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,16 +28,17 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class BatchConfig {
+public class BatchJobConfig {
 
     private final JobRepository jobRepository;
-
     private final PlatformTransactionManager transactionManager;
+    private final ScrapJobListener scrapJobListener;
 
     @Bean
     @Qualifier("holaJob")
     public Job holaJob(@Qualifier("firstHolaStep") Step firstStep, @Qualifier("secondHolaChunkStep") Step secondStep) {
         return new JobBuilder("holaJob", jobRepository)
+                .listener(scrapJobListener)
                 .incrementer(new RunIdIncrementer())
                 .start(firstStep)
                 .next(secondStep)
@@ -69,6 +68,7 @@ public class BatchConfig {
     @Qualifier("okkyJob")
     public Job okkyJob(@Qualifier("firstOkkyStep") Step firstStep, @Qualifier("secondOkkyChunkStep") Step secondStep) {
         return new JobBuilder("okkyJob", jobRepository)
+                .listener(scrapJobListener)
                 .incrementer(new RunIdIncrementer())
                 .start(firstStep)
                 .next(secondStep)

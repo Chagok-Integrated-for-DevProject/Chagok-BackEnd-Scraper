@@ -7,7 +7,10 @@ import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,23 +32,26 @@ import static java.lang.Thread.sleep;
 public class HolaUrlTasklet implements Tasklet {
 
     private HashSet<String> visitedUrls = new HashSet<>();
+    private ExecutionContext exc;
 
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
 
-        // board api server
-        final String apiUrl = "https://api.holaworld.io/api/posts/pagination?sort=-createdAt&position=ALL&type=0&isClosed=false&page=";
+        // 방문 인덱스 조회
+        Long visitIdx = (Long) BatchUtils.getDataInContext(chunkContext, BatchUtils.HOLA_VISIT_IDX_KEY);
 
         ObjectMapper objectMapper = new ObjectMapper();
+        Document parser;
 
         ArrayList<String> willParseUrls = new ArrayList<>();
 
         for (int page = 1; ; page++) {
 
             // apiUrl 주소에 page 추가
+            // board api server
+            String apiUrl = "https://api.holaworld.io/api/posts/pagination?sort=-createdAt&position=ALL&type=0&isClosed=false&page=";
             String nextUrl = apiUrl + page;
 
-            Document parser;
             try {
                 parser = Jsoup
                         .connect(nextUrl)
@@ -76,10 +83,11 @@ public class HolaUrlTasklet implements Tasklet {
                     String boardUrl = "https://holaworld.io/study/" + boardId;
 
                     // 한달 전 게시글만 수집
-                    if (!validateDate(createdDate) || isVisited(boardUrl)) {
-                        // execution 컨텍스트에 파싱할 URL 저장
-                        ExecutionContext exc = BatchUtils.getExecutionContextOfJob(chunkContext);
-                        exc.put(BatchUtils.HOLA_PARSING_URL_KEY, willParseUrls);
+                    if (!validateDate(createdDate) || isVisited(visitIdx, createdDate)) {
+                        // job execution 컨텍스트에 파싱할 URL 저장
+                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.HOLA_PARSING_URL_KEY, willParseUrls);
+                        // job execution 컨텍스트에 visit 인덱스 저장
+                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.HOLA_VISIT_IDX_KEY, visitIdx);
 
                         return RepeatStatus.FINISHED;
                     }
@@ -89,7 +97,7 @@ public class HolaUrlTasklet implements Tasklet {
                         continue;
 
                     willParseUrls.add(boardUrl);
-                    visitedUrls.add(boardUrl);
+                    visitIdx = createdDate.toEpochSecond(ZoneOffset.UTC);
                 }
 
             } catch (JsonProcessingException e) {
@@ -129,7 +137,8 @@ public class HolaUrlTasklet implements Tasklet {
     }
 
     // 방문 유무
-    private boolean isVisited(String boardUrl) {
-        return visitedUrls.contains(boardUrl);
+    private boolean isVisited(Long visitIdx, LocalDateTime boardDateTime) {
+        return visitIdx >= boardDateTime.toEpochSecond(ZoneOffset.UTC);
     }
+
 }

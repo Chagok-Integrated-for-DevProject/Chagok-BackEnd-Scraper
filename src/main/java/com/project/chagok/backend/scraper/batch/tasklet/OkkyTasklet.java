@@ -10,7 +10,6 @@ import org.jsoup.nodes.Document;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +28,8 @@ public class OkkyTasklet implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+
+        Long visitIdx = (Long) BatchUtils.getDataInContext(chunkContext, BatchUtils.OKKY_VISIT_IDX_KEY);
 
         ObjectMapper objectMapper = new ObjectMapper();
         Document parser;
@@ -63,15 +64,16 @@ public class OkkyTasklet implements Tasklet {
                     String boardId = boardJson.get("id").asText();
                     String boardUrl = "https://okky.kr/articles/" + boardId;
 
-                    if (!validateDate(createdDate) || isVisited(boardUrl)) {
-                        ExecutionContext exc = BatchUtils.getExecutionContextOfJob(chunkContext);
-                        exc.put(BatchUtils.OKKY_PARSING_URL_KEY, willParseUrls);
+                    if (!validateDate(createdDate) || isVisited(visitIdx, boardId)) {
+                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.OKKY_PARSING_URL_KEY, willParseUrls);
+                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.OKKY_VISIT_IDX_KEY, visitIdx);
 
                         return RepeatStatus.FINISHED;
                     }
 
-                    willParseUrls.add(boardUrl);
                     visitedUrls.add(boardUrl);
+
+                    visitIdx = Long.parseLong(boardId);
                 }
 
             } catch (JsonProcessingException e) {
@@ -97,7 +99,7 @@ public class OkkyTasklet implements Tasklet {
         return createdDate.isAfter(beforeOneMonth);
     }
 
-    boolean isVisited(String boardUrl) {
-        return visitedUrls.contains(boardUrl);
+    boolean isVisited(Long visitIdx, String boardId) {
+        return visitIdx >= Long.parseLong(boardId);
     }
 }
