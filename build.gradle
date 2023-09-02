@@ -13,7 +13,7 @@ jib {
 			image = "eclipse-temurin:17-jre-alpine"
 		}
 		to {
-			image = 'dearon/scrap-demo'
+			image = 'dearon/chagok-scrap'
 			tags = [project.version, 'latest'] as List<String>
 			auth {
 				username = project.findProperty("docker.repo.username")
