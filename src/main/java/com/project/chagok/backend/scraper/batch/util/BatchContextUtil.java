@@ -1,28 +1,11 @@
-package com.project.chagok.backend.scraper.batch.utils;
+package com.project.chagok.backend.scraper.batch.util;
 
-import com.project.chagok.backend.scraper.constants.SiteType;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.scope.context.JobContext;
 import org.springframework.batch.item.ExecutionContext;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class BatchUtils {
-
-    public static final String HOLA_PARSING_URL_KEY = "hola_parsing_url";
-    public static final String OKKY_PARSING_URL_KEY = "okky_parsing_url";
-    public static final String INF_PARSING_URL_KEY = "inf_parsing_url";
-    public static final String CONTEST_PARSING_URL_KEY = "contest_parsing_url";
-
-    public static final String HOLA_VISIT_IDX_KEY = "hola_visit_idx_key";
-    public static final String OKKY_VISIT_IDX_KEY = "okky_visit_idx_key";
-
-    public static final String SITE_TYPE_KEY = "site_type_key";
+public class BatchContextUtil {
 
     public static ExecutionContext getExecutionContextOfJob(ChunkContext chunkContext) {
         return chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
@@ -35,15 +18,6 @@ public class BatchUtils {
     public static ExecutionContext getExecutionContextOfJob(StepExecution stepExecution) {
         return stepExecution.getJobExecution().getExecutionContext();
     }
-
-    public static JobParameters getJobParamWithTime(SiteType siteType) { // 테스트 코드
-
-        return new JobParametersBuilder()
-                .addLong("timestamp", System.currentTimeMillis())
-                .addJobParameter(SITE_TYPE_KEY, siteType, SiteType.class)
-                .toJobParameters();
-    }
-
 
     public static <T> void saveDataInContext(ChunkContext chunkContext, String key, T value) {
 
@@ -68,4 +42,11 @@ public class BatchUtils {
         return exc.get(key);
     }
 
+    public static Object getDataInRunParam(JobExecution jobExecution, String key) {
+       return jobExecution.getJobParameters().getParameter(key).getValue();
+    }
+
+    public static Object getDataInRunParam(ChunkContext chunkContext, String key) {
+        return chunkContext.getStepContext().getStepExecution().getJobExecution().getJobParameters().getParameter(key).getValue();
+    }
 }

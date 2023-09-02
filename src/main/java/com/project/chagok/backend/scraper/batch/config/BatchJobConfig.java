@@ -101,6 +101,7 @@ public class BatchJobConfig {
     public Job inflearnJob(@Qualifier("firstInflearnStep") Step firstStep, @Qualifier("secondInflearnChunkStep") Step secondStep) {
         return new JobBuilder("inflearnJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
+                .listener(scrapJobListener)
                 .start(firstStep)
                 .next(secondStep)
                 .build();

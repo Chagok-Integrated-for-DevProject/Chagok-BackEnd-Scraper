@@ -3,7 +3,10 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.constants.VisitIdxKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,12 +27,10 @@ import static java.lang.Thread.sleep;
 @Component
 public class OkkyTasklet implements Tasklet {
 
-    private HashSet<String> visitedUrls = new HashSet<>();
-
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext)  {
 
-        Long visitIdx = (Long) BatchUtils.getDataInContext(chunkContext, BatchUtils.OKKY_VISIT_IDX_KEY);
+        Long visitIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, VisitIdxKey.OKKY.getKey());
 
         ObjectMapper objectMapper = new ObjectMapper();
         Document parser;
@@ -61,19 +62,16 @@ public class OkkyTasklet implements Tasklet {
 
                     LocalDateTime createdDate = convertFromDateString(boardJson.get("dateCreated").asText());
 
-                    String boardId = boardJson.get("id").asText();
+                    Long boardId = boardJson.get("id").asLong();
                     String boardUrl = "https://okky.kr/articles/" + boardId;
 
                     if (!validateDate(createdDate) || isVisited(visitIdx, boardId)) {
-                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.OKKY_PARSING_URL_KEY, willParseUrls);
-                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.OKKY_VISIT_IDX_KEY, visitIdx);
+                        BatchContextUtil.saveDataInContext(chunkContext, ParsingUrlKey.OKKY.getKey(), willParseUrls);
+                        BatchContextUtil.saveDataInContext(chunkContext, VisitIdxKey.OKKY.getKey(), boardId);
 
                         return RepeatStatus.FINISHED;
                     }
-
-                    visitedUrls.add(boardUrl);
-
-                    visitIdx = Long.parseLong(boardId);
+                    willParseUrls.add(boardUrl);
                 }
 
             } catch (JsonProcessingException e) {
@@ -99,7 +97,7 @@ public class OkkyTasklet implements Tasklet {
         return createdDate.isAfter(beforeOneMonth);
     }
 
-    boolean isVisited(Long visitIdx, String boardId) {
-        return visitIdx >= Long.parseLong(boardId);
+    boolean isVisited(Long visitIdx, Long boardId) {
+        return visitIdx >= boardId;
     }
 }

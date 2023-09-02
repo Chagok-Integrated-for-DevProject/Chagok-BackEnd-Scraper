@@ -1,9 +1,10 @@
 package com.project.chagok.backend.scraper.batch.reader;
 
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import com.project.chagok.backend.scraper.dto.ContestDto;
-import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -51,7 +52,7 @@ public class ContestItemReader implements ItemReader<ContestDto>, StepExecutionL
         }
 
         Document parser;
-        List<String> boardUrls = (List<String>) exc.get(BatchUtils.CONTEST_PARSING_URL_KEY);
+        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.CONTEST.getKey());
 
         if (idx < boardUrls.size()) {
 
@@ -129,7 +130,7 @@ public class ContestItemReader implements ItemReader<ContestDto>, StepExecutionL
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화
-        exc = BatchUtils.getExecutionContextOfJob(stepExecution);
+        exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.project.chagok.backend.scraper.batch.domain.entitiy;
 
+import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
 import com.project.chagok.backend.scraper.constants.SiteType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,12 +16,12 @@ public class SiteVisit {
     Long id;
 
     @Enumerated(EnumType.STRING)
-    private SiteType siteType;
+    private JobSiteType jobSiteType;
 
     private Long visitIdx;
 
-    public SiteVisit(SiteType siteType, Long visitIdx) {
-        this.siteType = siteType;
+    public SiteVisit(JobSiteType jobSiteType, Long visitIdx) {
+        this.jobSiteType = jobSiteType;
         this.visitIdx = visitIdx;
     }
 

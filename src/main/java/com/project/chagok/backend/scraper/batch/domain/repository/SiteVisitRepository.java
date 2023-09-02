@@ -1,5 +1,6 @@
 package com.project.chagok.backend.scraper.batch.domain.repository;
 
+import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
 import com.project.chagok.backend.scraper.batch.domain.entitiy.SiteVisit;
 import com.project.chagok.backend.scraper.constants.SiteType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface SiteVisitRepository extends JpaRepository<SiteVisit, Long> {
 
-    Optional<SiteVisit> findBySiteType(SiteType siteType);
+    Optional<SiteVisit> findByJobSiteType(JobSiteType jobSiteType);
 }

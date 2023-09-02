@@ -1,6 +1,8 @@
 package com.project.chagok.backend.scraper.batch.tasklet;
 
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
@@ -83,8 +85,8 @@ public class ContestTasklet implements Tasklet {
         }
 
         // execution 컨텍스트에 파싱할 URL 저장
-        ExecutionContext exc = BatchUtils.getExecutionContextOfJob(chunkContext);
-        exc.put(BatchUtils.CONTEST_PARSING_URL_KEY, willParseUrls);
+        ExecutionContext exc = BatchContextUtil.getExecutionContextOfJob(chunkContext);
+        exc.put(ParsingUrlKey.CONTEST.getKey(), willParseUrls);
 
         return RepeatStatus.FINISHED;
     }

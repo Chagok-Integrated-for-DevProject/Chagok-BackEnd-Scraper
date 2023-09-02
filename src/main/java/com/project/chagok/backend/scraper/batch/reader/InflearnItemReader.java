@@ -1,6 +1,8 @@
 package com.project.chagok.backend.scraper.batch.reader;
 
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.CategoryType;
 import com.project.chagok.backend.scraper.constants.SiteType;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
@@ -44,7 +46,7 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
         7. 본문
          */
 
-        List<String> boardUrls = (List<String>) exc.get(BatchUtils.INF_PARSING_URL_KEY);
+        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.INFLEARN.getKey());
 
         try {
             sleep(TimeDelay.MEDIUM);
@@ -143,7 +145,7 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화
-        exc = BatchUtils.getExecutionContextOfJob(stepExecution);
+        exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
     }
 
     @Override

@@ -3,14 +3,14 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.constants.VisitIdxKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
@@ -31,14 +31,11 @@ import static java.lang.Thread.sleep;
 @Component
 public class HolaUrlTasklet implements Tasklet {
 
-    private HashSet<String> visitedUrls = new HashSet<>();
-    private ExecutionContext exc;
-
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
 
         // 방문 인덱스 조회
-        Long visitIdx = (Long) BatchUtils.getDataInContext(chunkContext, BatchUtils.HOLA_VISIT_IDX_KEY);
+        Long visitIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, VisitIdxKey.HOLA.getKey());
 
         ObjectMapper objectMapper = new ObjectMapper();
         Document parser;
@@ -85,9 +82,9 @@ public class HolaUrlTasklet implements Tasklet {
                     // 한달 전 게시글만 수집
                     if (!validateDate(createdDate) || isVisited(visitIdx, createdDate)) {
                         // job execution 컨텍스트에 파싱할 URL 저장
-                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.HOLA_PARSING_URL_KEY, willParseUrls);
+                        BatchContextUtil.saveDataInContext(chunkContext, ParsingUrlKey.HOLA.getKey(), willParseUrls);
                         // job execution 컨텍스트에 visit 인덱스 저장
-                        BatchUtils.saveDataInContext(chunkContext, BatchUtils.HOLA_VISIT_IDX_KEY, visitIdx);
+                        BatchContextUtil.saveDataInContext(chunkContext, VisitIdxKey.HOLA.getKey(), createdDate.toEpochSecond(ZoneOffset.UTC));
 
                         return RepeatStatus.FINISHED;
                     }
@@ -97,7 +94,6 @@ public class HolaUrlTasklet implements Tasklet {
                         continue;
 
                     willParseUrls.add(boardUrl);
-                    visitIdx = createdDate.toEpochSecond(ZoneOffset.UTC);
                 }
 
             } catch (JsonProcessingException e) {
