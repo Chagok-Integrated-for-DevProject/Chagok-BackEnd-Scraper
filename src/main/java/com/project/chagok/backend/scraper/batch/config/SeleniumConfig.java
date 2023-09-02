@@ -1,19 +1,24 @@
 package com.project.chagok.backend.scraper.batch.config;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Configuration
 public class SeleniumConfig {
 
     @Bean
-    public WebDriver chromeWebDriver() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
+    public WebDriver chromeWebDriver() throws MalformedURLException {
 
-        return new ChromeDriver(options);
+        ChromeOptions chromeOptions = new ChromeOptions();
+        WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+        return driver;
     }
 }
