@@ -4,21 +4,21 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Configuration
 public class SeleniumConfig {
 
     @Bean
-    public WebDriver chromeWebDriver() {
-        // chrome driver setup
-        WebDriverManager.chromedriver().setup();
+    public WebDriver chromeWebDriver() throws MalformedURLException {
 
-        // chrom driver options
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless=new");
-
-        return new ChromeDriver(chromeOptions);
+        WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+        return driver;
     }
 }
