@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout'){
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                withCredentials([file(credentialsId: 'test-property-file', variable: 'test-property-file')]) {
+                   sh "cp \$test-property-file /src/main/resources/application-test.properties"
+                }
+                sh 'chmod +x gradlew'
+                sh './gradlew clean build -x test'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+        stage('Publish') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-jenkins',
+                                 usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    script {
+                        sh """
+                            ./gradlew jib -PrunJib=true \
+                                          -Pdocker.repo.username=${USERNAME} \
+                                          -Pdocker.repo.password=${PASSWORD} \
+                        """
+                    }
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                sshagent(credentials: ["deploy-server-ssh"]) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no -l admin 172.30.1.30
+                       """
+                }
+            }
+        }
+    }
+}
