@@ -2,7 +2,7 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 
 import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
 import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
-import com.project.chagok.backend.scraper.batch.constants.VisitIdxKey;
+import com.project.chagok.backend.scraper.batch.constants.CollectedIdxKey;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
@@ -14,13 +14,11 @@ import org.jsoup.select.Elements;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,9 +29,11 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class InflearnTasklet implements Tasklet {
 
+    // 수집 할 url
     private final String projectUrl = "https://www.inflearn.com/community/projects?status=unrecruited";
     private final String studyUrl = "https://www.inflearn.com/community/studies?status=unrecruited";
-    private final String baseInflearnUrl = "https://www.inflearn.com";
+    // base url
+    private final String inflearnUrl = "https://www.inflearn.com";
 
 
     @Override
@@ -41,18 +41,21 @@ public class InflearnTasklet implements Tasklet {
 
         JobSiteType jobSiteType = (JobSiteType) BatchContextUtil.getDataInRunParam(chunkContext, BatchUtil.SITE_TYPE_KEY);
 
-        Long visitIdx = null;
+        // inflearn project or study에 따른
+        Long collectedIdx = null;
         String baseUrl = null;
         if (jobSiteType == JobSiteType.INFLEARN_PROJECT) {
             baseUrl = projectUrl;
-            visitIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, VisitIdxKey.INFLEARN_PROJECT.getKey());
+            collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.INFLEARN_PROJECT.getKey());
         }
         else if (jobSiteType == JobSiteType.INFLEARN_STUDY) {
             baseUrl = studyUrl;
-            visitIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, VisitIdxKey.INFLEARN_STUDY.getKey());
+            collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.INFLEARN_STUDY.getKey());
         }
 
         ArrayList<String> willParseUrls = new ArrayList<>();
+
+        Long currentIdx = -1L; // 첫번째로 접근한 글에 대한 인덱스
 
         for (int page = 1; ; page++){
             Document parser;
@@ -79,14 +82,18 @@ public class InflearnTasklet implements Tasklet {
                 String createdDate = listItemElement.selectFirst(listCreatedDateSelector).text();
 
                 // list item url 파싱
-                String url = baseInflearnUrl + listItemElement.selectFirst("a").attr("href");
+                String url = inflearnUrl + listItemElement.selectFirst("a").attr("href");
                 Long boardId = extractBoardId(url);
 
+                if (currentIdx == -1L)
+                    currentIdx = boardId;
+
                 // 한 달 전인지 검증 or 이미 방문한 사이트인지 검증
-                if (!validateDate(createdDate) || isVisited(visitIdx, boardId)) {
-                    // 컨텍스트에 파싱할 url 저장
+                if (!validateDate(createdDate) || isVisited(collectedIdx, boardId)) {
+                    // job execution context에 파싱할 url 저장
                     BatchContextUtil.saveDataInContext(chunkContext, ParsingUrlKey.INFLEARN.getKey(), willParseUrls);
-                    BatchContextUtil.saveDataInContext(chunkContext, (jobSiteType == JobSiteType.INFLEARN_STUDY) ? VisitIdxKey.INFLEARN_STUDY.getKey() : VisitIdxKey.INFLEARN_PROJECT.getKey(), boardId);
+                    // job execution context에 수집했던 첫번째 게시글에 대한 수집 index저장
+                    BatchContextUtil.saveDataInContext(chunkContext, (jobSiteType == JobSiteType.INFLEARN_STUDY) ? CollectedIdxKey.INFLEARN_STUDY.getKey() : CollectedIdxKey.INFLEARN_PROJECT.getKey(), currentIdx);
 
                     return RepeatStatus.FINISHED;
                 }
@@ -108,21 +115,22 @@ public class InflearnTasklet implements Tasklet {
         }
     }
 
+    // 수집 유무 검사
     boolean isVisited(Long visitIdx, Long boardId) {
         return visitIdx >= boardId;
     }
-
+    // 모집 중인지 글 검사
     private boolean isRecruiting(String recruitingString) {
         return recruitingString.equals("모집중");
     }
-
+    // 한 달전 게시글 검증
     private boolean validateDate(String parsingDate) {
 
         final String validDateSuffix = "달 전";
 
         return !parsingDate.endsWith(validDateSuffix);
     }
-
+    // 게시글 id 추출
     private Long extractBoardId(String url) {
         String pattern = "/(?:studies|projects)/(\\d+)";
 

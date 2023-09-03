@@ -2,7 +2,6 @@ package com.project.chagok.backend.scraper.batch.reader;
 
 import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
-import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import com.project.chagok.backend.scraper.dto.ContestDto;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ import static java.lang.Thread.sleep;
 
 @Component
 @Slf4j
-public class ContestItemReader implements ItemReader<ContestDto>, StepExecutionListener {
+public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecutionListener {
 
     private ExecutionContext exc;
     private int idx = 0;
@@ -52,7 +51,7 @@ public class ContestItemReader implements ItemReader<ContestDto>, StepExecutionL
         }
 
         Document parser;
-        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.CONTEST.getKey());
+        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.CONTEST_KOREA.getKey());
 
         if (idx < boardUrls.size()) {
 

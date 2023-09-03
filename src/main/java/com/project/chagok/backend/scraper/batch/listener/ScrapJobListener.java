@@ -1,12 +1,11 @@
 package com.project.chagok.backend.scraper.batch.listener;
 
 import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
-import com.project.chagok.backend.scraper.batch.constants.VisitIdxKey;
+import com.project.chagok.backend.scraper.batch.constants.CollectedIdxKey;
 import com.project.chagok.backend.scraper.batch.domain.entitiy.SiteVisit;
 import com.project.chagok.backend.scraper.batch.domain.repository.SiteVisitRepository;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.batch.util.BatchUtil;
-import com.project.chagok.backend.scraper.constants.SiteType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -36,10 +35,11 @@ public class ScrapJobListener implements JobExecutionListener {
 
         String idxKey = null;
         switch (jobSiteType) {
-            case HOLA -> idxKey = VisitIdxKey.HOLA.getKey();
-            case OKKY -> idxKey = VisitIdxKey.OKKY.getKey();
-            case INFLEARN_STUDY -> idxKey = VisitIdxKey.INFLEARN_STUDY.getKey();
-            case INFLEARN_PROJECT -> idxKey = VisitIdxKey.INFLEARN_PROJECT.getKey();
+            case HOLA -> idxKey = CollectedIdxKey.HOLA.getKey();
+            case OKKY -> idxKey = CollectedIdxKey.OKKY.getKey();
+            case INFLEARN_STUDY -> idxKey = CollectedIdxKey.INFLEARN_STUDY.getKey();
+            case INFLEARN_PROJECT -> idxKey = CollectedIdxKey.INFLEARN_PROJECT.getKey();
+            case CONTEST_KOREA -> idxKey = CollectedIdxKey.CONTEST_KOREA.getKey();
         }
 
         BatchContextUtil.saveDataInContext(jobExecution, idxKey, visitIdx);
@@ -54,10 +54,11 @@ public class ScrapJobListener implements JobExecutionListener {
 
         String idxKey = null;
         switch (jobSiteType) {
-            case HOLA -> idxKey = VisitIdxKey.HOLA.getKey();
-            case OKKY -> idxKey = VisitIdxKey.OKKY.getKey();
-            case INFLEARN_STUDY -> idxKey = VisitIdxKey.INFLEARN_STUDY.getKey();
-            case INFLEARN_PROJECT -> idxKey = VisitIdxKey.INFLEARN_PROJECT.getKey();
+            case HOLA -> idxKey = CollectedIdxKey.HOLA.getKey();
+            case OKKY -> idxKey = CollectedIdxKey.OKKY.getKey();
+            case INFLEARN_STUDY -> idxKey = CollectedIdxKey.INFLEARN_STUDY.getKey();
+            case INFLEARN_PROJECT -> idxKey = CollectedIdxKey.INFLEARN_PROJECT.getKey();
+            case CONTEST_KOREA -> idxKey = CollectedIdxKey.CONTEST_KOREA.getKey();
         }
 
         Optional<SiteVisit> savedSiteVisit = siteVisitRepository.findByJobSiteType(jobSiteType);

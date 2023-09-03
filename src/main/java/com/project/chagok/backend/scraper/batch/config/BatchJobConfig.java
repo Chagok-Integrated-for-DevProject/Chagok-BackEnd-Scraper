@@ -1,11 +1,11 @@
 package com.project.chagok.backend.scraper.batch.config;
 
 import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
-import com.project.chagok.backend.scraper.batch.reader.ContestItemReader;
+import com.project.chagok.backend.scraper.batch.reader.ContestKoreaItemReader;
 import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;
 import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
 import com.project.chagok.backend.scraper.batch.reader.OkkyItemReader;
-import com.project.chagok.backend.scraper.batch.tasklet.ContestTasklet;
+import com.project.chagok.backend.scraper.batch.tasklet.ContestKoreaTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.HolaUrlTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.InflearnTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.OkkyTasklet;
@@ -127,29 +127,30 @@ public class BatchJobConfig {
 
 
     @Bean
-    @Qualifier("contestJob")
+    @Qualifier("contestKoreaJob")
     public Job contestJob(@Qualifier("firstContestStep") Step firstStep, @Qualifier("secondContestChunkStep") Step secondStep) {
-        return new JobBuilder("contestJob", jobRepository)
+        return new JobBuilder("contestKoreaJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
+                .listener(scrapJobListener)
                 .start(firstStep)
                 .next(secondStep)
                 .build();
     }
 
     @Bean
-    @Qualifier("firstContestStep")
-    public Step firstContestStep(ContestTasklet contestTasklet) {
-        return new StepBuilder("firstContestStep", jobRepository)
-                .tasklet(contestTasklet, transactionManager)
+    @Qualifier("firstContestKoreaStep")
+    public Step firstContestStep(ContestKoreaTasklet contestKoreaTasklet) {
+        return new StepBuilder("firstContestKoreaStep", jobRepository)
+                .tasklet(contestKoreaTasklet, transactionManager)
                 .build();
     }
 
     @Bean
-    @Qualifier("secondContestChunkStep")
-    public Step secondContestChunkStep(ContestItemReader contestItemReader, ContestItemWriter contestItemWriter) {
-        return new StepBuilder("secondContestChunkStep", jobRepository)
+    @Qualifier("secondContestKoreaChunkStep")
+    public Step secondContestChunkStep(ContestKoreaItemReader contestKoreaItemReader, ContestItemWriter contestItemWriter) {
+        return new StepBuilder("secondContestKoreaChunkStep", jobRepository)
                 .<ContestDto, ContestDto>chunk(3, transactionManager)
-                .reader(contestItemReader)
+                .reader(contestKoreaItemReader)
                 .writer(contestItemWriter)
                 .build();
     }
