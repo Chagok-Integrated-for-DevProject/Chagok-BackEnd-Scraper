@@ -47,8 +47,7 @@ public class InflearnTasklet implements Tasklet {
         if (jobSiteType == JobSiteType.INFLEARN_PROJECT) {
             baseUrl = projectUrl;
             collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.INFLEARN_PROJECT.getKey());
-        }
-        else if (jobSiteType == JobSiteType.INFLEARN_STUDY) {
+        } else if (jobSiteType == JobSiteType.INFLEARN_STUDY) {
             baseUrl = studyUrl;
             collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.INFLEARN_STUDY.getKey());
         }

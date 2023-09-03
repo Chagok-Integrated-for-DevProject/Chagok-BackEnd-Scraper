@@ -2,8 +2,8 @@ package com.project.chagok.backend.scraper.batch.listener;
 
 import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
 import com.project.chagok.backend.scraper.batch.constants.CollectedIdxKey;
-import com.project.chagok.backend.scraper.batch.domain.entitiy.SiteVisit;
-import com.project.chagok.backend.scraper.batch.domain.repository.SiteVisitRepository;
+import com.project.chagok.backend.scraper.domain.entitiy.SiteVisit;
+import com.project.chagok.backend.scraper.domain.repository.SiteVisitRepository;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import lombok.RequiredArgsConstructor;

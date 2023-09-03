@@ -1,22 +1,21 @@
-package com.project.chagok.backend.scraper.batch.domain.entitiy;
+package com.project.chagok.backend.scraper.domain.entitiy;
 
 import com.project.chagok.backend.scraper.constants.SiteType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
-// Study 게시글 및 Study 게시글 기술 스택 엔티티
 @Entity
-@Getter
-@Setter
-@ToString
-@Table(name = "study")
-public class Study {
+@Table(name = "project")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Project {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -31,18 +30,18 @@ public class Study {
 
     private String sourceUrl;
 
+    @Column(columnDefinition = "text")
     private String content;
-    private int hotCount;
 
     private int scrapCount;
+
+    private int hotCount;
 
     @Enumerated(EnumType.STRING)
     private SiteType siteType;
 
-
-    @ElementCollection(targetClass = String.class,fetch = FetchType.LAZY)
-    @CollectionTable(name = "study_tech_stacks", joinColumns = @JoinColumn(name = "study_id"))
-    @Column(name = "tech_stack", nullable = false)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "project_tech_stacks", joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "tech_stacks", nullable = false)
     private List<String> techStacks = new ArrayList<>();
-
 }

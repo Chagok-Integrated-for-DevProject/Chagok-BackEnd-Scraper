@@ -1,11 +1,9 @@
-package com.project.chagok.backend.scraper.batch.domain.entitiy;
+package com.project.chagok.backend.scraper.domain.entitiy;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Contest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,6 +27,7 @@ public class Contest {
 
     private String host;
 
+    @Column(columnDefinition = "text")
     private String content;
 
     private String imageUrl;

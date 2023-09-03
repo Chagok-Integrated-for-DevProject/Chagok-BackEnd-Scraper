@@ -33,7 +33,7 @@ import static java.lang.Thread.sleep;
 public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
-    private int idx = 0;
+    private int idx;
     private final String baseUrl = "https://okky.kr/community/gathering";
 
     @Override
@@ -146,6 +146,7 @@ public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutio
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+        idx = 0;
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화

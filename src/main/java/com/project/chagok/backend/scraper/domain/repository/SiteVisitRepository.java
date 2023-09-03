@@ -1,8 +1,7 @@
-package com.project.chagok.backend.scraper.batch.domain.repository;
+package com.project.chagok.backend.scraper.domain.repository;
 
 import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
-import com.project.chagok.backend.scraper.batch.domain.entitiy.SiteVisit;
-import com.project.chagok.backend.scraper.constants.SiteType;
+import com.project.chagok.backend.scraper.domain.entitiy.SiteVisit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

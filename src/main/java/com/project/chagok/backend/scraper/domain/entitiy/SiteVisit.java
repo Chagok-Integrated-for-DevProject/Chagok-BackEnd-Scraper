@@ -1,4 +1,4 @@
-package com.project.chagok.backend.scraper.batch.domain.entitiy;
+package com.project.chagok.backend.scraper.domain.entitiy;
 
 import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
 import com.project.chagok.backend.scraper.constants.SiteType;

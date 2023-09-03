@@ -36,7 +36,7 @@ import static java.lang.Thread.sleep;
 public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
-    private int idx = 0;
+    private int idx;
 
     @Override
     public StudyProjectDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
@@ -150,6 +150,8 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+        idx = 0;
+
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화

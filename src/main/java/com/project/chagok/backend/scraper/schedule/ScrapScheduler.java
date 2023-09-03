@@ -43,15 +43,11 @@ public class ScrapScheduler {
         jobLauncher.run(okkyJob, BatchUtil.getJobParamWithTime(JobSiteType.OKKY));
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
-    public void inflearnStudyScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+
+     @Scheduled(cron = "0 */3 * * * *")
+    public void inflearnScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         jobLauncher.run(inflearnJob, BatchUtil.getJobParamWithTime(JobSiteType.INFLEARN_STUDY));
-    }
-
-    @Scheduled(cron = "0 */3 * * * *")
-    public void inflearnProjectScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
-
         jobLauncher.run(inflearnJob, BatchUtil.getJobParamWithTime(JobSiteType.INFLEARN_PROJECT));
     }
 

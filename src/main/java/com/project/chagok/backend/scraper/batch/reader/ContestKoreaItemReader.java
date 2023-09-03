@@ -28,8 +28,7 @@ import static java.lang.Thread.sleep;
 public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecutionListener {
 
     private ExecutionContext exc;
-    private int idx = 0;
-
+    private int idx;
 
     @Override
     public ContestDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
@@ -126,6 +125,8 @@ public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecu
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+        idx = 0;
+
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화

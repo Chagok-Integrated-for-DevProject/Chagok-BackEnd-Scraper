@@ -107,6 +107,7 @@ public class BatchJobConfig {
                 .build();
     }
 
+
     @Bean
     @Qualifier("firstInflearnStep")
     public Step firstInflearnStep(InflearnTasklet inflearnTasklet) {
