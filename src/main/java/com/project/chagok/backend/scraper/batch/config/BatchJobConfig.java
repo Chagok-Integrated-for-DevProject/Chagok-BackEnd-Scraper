@@ -1,10 +1,11 @@
 package com.project.chagok.backend.scraper.batch.config;
 
-import com.project.chagok.backend.scraper.batch.reader.ContestItemReader;
+import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
+import com.project.chagok.backend.scraper.batch.reader.ContestKoreaItemReader;
 import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;
 import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
 import com.project.chagok.backend.scraper.batch.reader.OkkyItemReader;
-import com.project.chagok.backend.scraper.batch.tasklet.ContestTasklet;
+import com.project.chagok.backend.scraper.batch.tasklet.ContestKoreaTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.HolaUrlTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.InflearnTasklet;
 import com.project.chagok.backend.scraper.batch.tasklet.OkkyTasklet;
@@ -15,14 +16,11 @@ import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.JobLocator;
-import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,16 +28,17 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class BatchConfig {
+public class BatchJobConfig {
 
     private final JobRepository jobRepository;
-
     private final PlatformTransactionManager transactionManager;
+    private final ScrapJobListener scrapJobListener;
 
     @Bean
     @Qualifier("holaJob")
     public Job holaJob(@Qualifier("firstHolaStep") Step firstStep, @Qualifier("secondHolaChunkStep") Step secondStep) {
         return new JobBuilder("holaJob", jobRepository)
+                .listener(scrapJobListener)
                 .incrementer(new RunIdIncrementer())
                 .start(firstStep)
                 .next(secondStep)
@@ -69,6 +68,7 @@ public class BatchConfig {
     @Qualifier("okkyJob")
     public Job okkyJob(@Qualifier("firstOkkyStep") Step firstStep, @Qualifier("secondOkkyChunkStep") Step secondStep) {
         return new JobBuilder("okkyJob", jobRepository)
+                .listener(scrapJobListener)
                 .incrementer(new RunIdIncrementer())
                 .start(firstStep)
                 .next(secondStep)
@@ -101,10 +101,12 @@ public class BatchConfig {
     public Job inflearnJob(@Qualifier("firstInflearnStep") Step firstStep, @Qualifier("secondInflearnChunkStep") Step secondStep) {
         return new JobBuilder("inflearnJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
+                .listener(scrapJobListener)
                 .start(firstStep)
                 .next(secondStep)
                 .build();
     }
+
 
     @Bean
     @Qualifier("firstInflearnStep")
@@ -126,29 +128,30 @@ public class BatchConfig {
 
 
     @Bean
-    @Qualifier("contestJob")
+    @Qualifier("contestKoreaJob")
     public Job contestJob(@Qualifier("firstContestStep") Step firstStep, @Qualifier("secondContestChunkStep") Step secondStep) {
-        return new JobBuilder("contestJob", jobRepository)
+        return new JobBuilder("contestKoreaJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
+                .listener(scrapJobListener)
                 .start(firstStep)
                 .next(secondStep)
                 .build();
     }
 
     @Bean
-    @Qualifier("firstContestStep")
-    public Step firstContestStep(ContestTasklet contestTasklet) {
-        return new StepBuilder("firstContestStep", jobRepository)
-                .tasklet(contestTasklet, transactionManager)
+    @Qualifier("firstContestKoreaStep")
+    public Step firstContestStep(ContestKoreaTasklet contestKoreaTasklet) {
+        return new StepBuilder("firstContestKoreaStep", jobRepository)
+                .tasklet(contestKoreaTasklet, transactionManager)
                 .build();
     }
 
     @Bean
-    @Qualifier("secondContestChunkStep")
-    public Step secondContestChunkStep(ContestItemReader contestItemReader, ContestItemWriter contestItemWriter) {
-        return new StepBuilder("secondContestChunkStep", jobRepository)
+    @Qualifier("secondContestKoreaChunkStep")
+    public Step secondContestChunkStep(ContestKoreaItemReader contestKoreaItemReader, ContestItemWriter contestItemWriter) {
+        return new StepBuilder("secondContestKoreaChunkStep", jobRepository)
                 .<ContestDto, ContestDto>chunk(3, transactionManager)
-                .reader(contestItemReader)
+                .reader(contestKoreaItemReader)
                 .writer(contestItemWriter)
                 .build();
     }

@@ -1,6 +1,8 @@
 package com.project.chagok.backend.scraper.batch.reader;
 
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.CategoryType;
 import com.project.chagok.backend.scraper.constants.SiteType;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
@@ -28,10 +30,10 @@ import static java.lang.Thread.sleep;
 public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
-    private int idx = 0;
+    private int idx;
 
     @Override
-    public StudyProjectDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public StudyProjectDto read() {
 
          /*
         데이터 목록
@@ -44,7 +46,7 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
         7. 본문
          */
 
-        List<String> boardUrls = (List<String>) exc.get(BatchUtils.INF_PARSING_URL_KEY);
+        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.INFLEARN.getKey());
 
         try {
             sleep(TimeDelay.MEDIUM);
@@ -125,7 +127,7 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
             String relativePath = new URL(parsingUrl).getPath();
             int toIdx = relativePath.indexOf("/", 1);
 
-            String type = relativePath.substring(1,  toIdx);
+            String type = relativePath.substring(1, toIdx);
             if (type.equals("projects"))
                 return CategoryType.PROJECT;
             else if (type.equals("studies"))
@@ -140,10 +142,12 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+        idx = 0;
+
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화
-        exc = BatchUtils.getExecutionContextOfJob(stepExecution);
+        exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
     }
 
     @Override

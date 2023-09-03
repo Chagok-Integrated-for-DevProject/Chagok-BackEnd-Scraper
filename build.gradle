@@ -2,7 +2,30 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.2'
 	id 'io.spring.dependency-management' version '1.1.2'
+	id 'com.google.cloud.tools.jib' version '3.1.4'
 }
+
+
+jib {
+	if (project.hasProperty("runJib") && project.property("runJib") == "true") {
+
+		from {
+			image = "eclipse-temurin:17-jre-alpine"
+		}
+		to {
+			image = 'dearon/chagok-scrap'
+			tags = [project.version, 'latest'] as List<String>
+			auth {
+				username = project.findProperty("docker.repo.username")
+				password = project.findProperty("docker.repo.password")
+			}
+		}
+		container {
+			ports = ['8080']
+		}
+	}
+}
+
 
 group = 'com.project.chagok.backend'
 version = '0.0.1-SNAPSHOT'
@@ -33,7 +56,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.batch:spring-batch-test'
 	implementation 'org.jsoup:jsoup:1.16.1'
-	implementation 'org.seleniumhq.selenium:selenium-java:4.10.0'
+	implementation 'org.seleniumhq.selenium:selenium-java:4.11.0'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'io.github.bonigarcia:webdrivermanager:5.5.2'
 }
 
 tasks.named('test') {

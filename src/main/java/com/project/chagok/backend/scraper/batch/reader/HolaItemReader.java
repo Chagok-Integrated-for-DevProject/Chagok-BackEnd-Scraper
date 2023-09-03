@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.CategoryType;
 import com.project.chagok.backend.scraper.constants.SiteType;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
@@ -34,7 +36,7 @@ import static java.lang.Thread.sleep;
 public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
-    private int idx = 0;
+    private int idx;
 
     @Override
     public StudyProjectDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
@@ -50,7 +52,7 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
         7. 본문
          */
 
-        List<String> boardUrls = (List<String>) exc.get(BatchUtils.HOLA_PARSING_URL_KEY);
+        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.HOLA.getKey());
 
         ObjectMapper objectMapper = new ObjectMapper().configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
         Document parser;
@@ -148,10 +150,12 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+        idx = 0;
+
         StepExecutionListener.super.beforeStep(stepExecution);
 
         // Execution Context 초기화
-        exc = BatchUtils.getExecutionContextOfJob(stepExecution);
+        exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
     }
 
     @Override

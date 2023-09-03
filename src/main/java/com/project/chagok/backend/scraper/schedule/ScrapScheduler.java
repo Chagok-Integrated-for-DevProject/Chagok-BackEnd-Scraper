@@ -1,9 +1,9 @@
 package com.project.chagok.backend.scraper.schedule;
 
-import com.project.chagok.backend.scraper.batch.utils.BatchUtils;
+import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
+import com.project.chagok.backend.scraper.constants.SiteType;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -34,25 +34,27 @@ public class ScrapScheduler {
     @Scheduled(cron = "0 */3 * * * *")
     public void holaScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
-        jobLauncher.run(holaJob, BatchUtils.getJobParamOnlyTimeNow());
+        jobLauncher.run(holaJob, BatchUtil.getJobParamWithTime(JobSiteType.HOLA));
     }
 
     @Scheduled(cron = "0 */3 * * * *")
     public void okkyScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
-        jobLauncher.run(okkyJob, BatchUtils.getJobParamOnlyTimeNow());
+        jobLauncher.run(okkyJob, BatchUtil.getJobParamWithTime(JobSiteType.OKKY));
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+
+     @Scheduled(cron = "0 */3 * * * *")
     public void inflearnScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
-        jobLauncher.run(inflearnJob, BatchUtils.getJobParamOnlyTimeNow());
+        jobLauncher.run(inflearnJob, BatchUtil.getJobParamWithTime(JobSiteType.INFLEARN_STUDY));
+        jobLauncher.run(inflearnJob, BatchUtil.getJobParamWithTime(JobSiteType.INFLEARN_PROJECT));
     }
 
     @Scheduled(cron = "0 */3 * * * *")
     public void contestScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
-        jobLauncher.run(contestJob, BatchUtils.getJobParamOnlyTimeNow());
+        jobLauncher.run(contestJob, BatchUtil.getJobParamWithTime(JobSiteType.CONTEST_KOREA));
     }
 
 }
