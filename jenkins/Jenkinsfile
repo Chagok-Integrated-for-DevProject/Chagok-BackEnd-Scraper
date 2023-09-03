@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 withCredentials([file(credentialsId: 'test-property-file', variable: 'test-property-file')]) {
-                   sh "cp \$test-property-file /src/main/resources/application-test.properties"
+                   sh 'cp "$test-property-file" /src/main/resources/application-test.properties'
                 }
                 sh 'chmod +x gradlew'
                 sh './gradlew clean build -x test'
