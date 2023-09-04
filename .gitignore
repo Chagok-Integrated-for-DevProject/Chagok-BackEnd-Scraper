@@ -37,5 +37,5 @@ out/
 .vscode/
 
 ### properties ###
-/src/main/resources/application-db.properties
-/src/main/resources/application-test.properties
+/src/main/resources/application-deploy.properties
+/src/main/resources/application-dev.properties
