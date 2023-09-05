@@ -31,27 +31,27 @@ public class ScrapScheduler {
         this.jobLauncher = jobLauncher;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */15 * * * *")
     public void holaScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         jobLauncher.run(holaJob, BatchUtil.getJobParamWithTime(JobSiteType.HOLA));
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */15 * * * *")
     public void okkyScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         jobLauncher.run(okkyJob, BatchUtil.getJobParamWithTime(JobSiteType.OKKY));
     }
 
 
-     @Scheduled(cron = "0 */3 * * * *")
+     @Scheduled(cron = "0 */15 * * * *")
     public void inflearnScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         jobLauncher.run(inflearnJob, BatchUtil.getJobParamWithTime(JobSiteType.INFLEARN_STUDY));
         jobLauncher.run(inflearnJob, BatchUtil.getJobParamWithTime(JobSiteType.INFLEARN_PROJECT));
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */15 * * * *")
     public void contestScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         jobLauncher.run(contestJob, BatchUtil.getJobParamWithTime(JobSiteType.CONTEST_KOREA));

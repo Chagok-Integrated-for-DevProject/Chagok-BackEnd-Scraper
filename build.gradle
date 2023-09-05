@@ -22,7 +22,7 @@ jib {
 		}
 		container {
 			ports = ['8080']
-			jvmFlags = ['-Dspring.profiles.active=dev']
+			jvmFlags = ['-Dspring.profiles.active=deploy']
 		}
 	}
 }

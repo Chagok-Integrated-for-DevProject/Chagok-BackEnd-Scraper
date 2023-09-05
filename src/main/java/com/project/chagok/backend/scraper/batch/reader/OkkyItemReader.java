@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 import static java.lang.Thread.sleep;
 
 @Component
-@Slf4j
 public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
@@ -37,7 +36,7 @@ public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutio
     private final String baseUrl = "https://okky.kr/community/gathering";
 
     @Override
-    public StudyProjectDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public StudyProjectDto read() throws Exception {
 
                 /*
             데이터 목록

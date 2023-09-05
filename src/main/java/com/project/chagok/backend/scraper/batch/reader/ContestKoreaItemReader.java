@@ -4,7 +4,6 @@ import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import com.project.chagok.backend.scraper.dto.ContestDto;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -24,14 +23,13 @@ import java.util.stream.Collectors;
 import static java.lang.Thread.sleep;
 
 @Component
-@Slf4j
 public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecutionListener {
 
     private ExecutionContext exc;
     private int idx;
 
     @Override
-    public ContestDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public ContestDto read() {
 
         /*
         추출할 데이터
@@ -125,12 +123,13 @@ public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecu
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        idx = 0;
-
         StepExecutionListener.super.beforeStep(stepExecution);
 
+        // 인덱스 초기화
+        idx = 0;
         // Execution Context 초기화
         exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
+
     }
 
     @Override
