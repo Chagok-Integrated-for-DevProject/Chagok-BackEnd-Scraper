@@ -9,7 +9,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class ProejctStudyItemWriter implements ItemWriter<StudyProjectDto> {
 
