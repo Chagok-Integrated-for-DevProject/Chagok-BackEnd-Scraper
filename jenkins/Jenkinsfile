@@ -41,7 +41,7 @@ pipeline {
                     sh """
                         ssh -o StrictHostKeyChecking=no -l admin 172.30.1.30 \
                         "export KUBECONFIG=~/.kube/config; \
-                        k3s kubectl apply -f ~/chagok_scrap_dir/chagok_scraper_kube.yaml"
+                        k3s kubectl rollout restart deployment/chagok-scrap-deployment"
                        """
                 }
             }
