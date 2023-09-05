@@ -38,7 +38,7 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
     private int idx;
 
     @Override
-    public StudyProjectDto read() {
+    public StudyProjectDto read() throws IOException {
 
          /*
         데이터 목록
@@ -70,47 +70,38 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
             // boardId 값으로 api 주소에 대입해서 return
             String jsonUrl = extractBoardJsonFromUrl(boardUrl);
 
-            try {
-                parser = Jsoup
-                        .connect(jsonUrl)
-                        .ignoreContentType(true)
-                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-                        .get();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            parser = Jsoup
+                    .connect(jsonUrl)
+                    .ignoreContentType(true)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+                    .get();
 
             // board json 파싱 & jsoup에서 특정 escape 문자열을 encoding 한 것에 \" 로 decoding
             String boardJsonString = parser.select("body").first().html().replaceAll("\"\\\\&quot;|\\\\&quot;\"", "\\\\\"");
 
-            try {
-                JsonNode boardJson = objectMapper.readTree(boardJsonString);
+            JsonNode boardJson = objectMapper.readTree(boardJsonString);
 
-                String title = boardJson.get("title").asText();
-                String content = boardJson.get("content").toString().replace("\\\"", "\"");
-                String nickname = boardJson.get("author").get("nickName").asText();
-                LocalDateTime createdTime = convertFromDateString(boardJson.get("createdAt").asText());
-                List<String> techStacksList = new ArrayList<>();
-                boardJson.get("language").elements().forEachRemaining(techstack -> techStacksList.add(techstack.asText()));
-                CategoryType category = extractCategoryFromJSon(boardJson.get("type").asText());
+            String title = boardJson.get("title").asText();
+            String content = boardJson.get("content").toString().replace("\\\"", "\"");
+            String nickname = boardJson.get("author").get("nickName").asText();
+            LocalDateTime createdTime = convertFromDateString(boardJson.get("createdAt").asText());
+            List<String> techStacksList = new ArrayList<>();
+            boardJson.get("language").elements().forEachRemaining(techstack -> techStacksList.add(techstack.asText()));
+            CategoryType category = extractCategoryFromJSon(boardJson.get("type").asText());
 
 
-                StudyProjectDto studyProjectDto = StudyProjectDto.builder()
-                        .siteType(SiteType.HOLA)
-                        .title(title)
-                        .content(content)
-                        .nickname(nickname)
-                        .createdDate(createdTime)
-                        .sourceUrl(boardUrl)
-                        .categoryType(category)
-                        .techList(techStacksList)
-                        .build();
+            StudyProjectDto studyProjectDto = StudyProjectDto.builder()
+                    .siteType(SiteType.HOLA)
+                    .title(title)
+                    .content(content)
+                    .nickname(nickname)
+                    .createdDate(createdTime)
+                    .sourceUrl(boardUrl)
+                    .categoryType(category)
+                    .techList(techStacksList)
+                    .build();
 
-                return studyProjectDto;
-
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            return studyProjectDto;
         }
 
         return null;
