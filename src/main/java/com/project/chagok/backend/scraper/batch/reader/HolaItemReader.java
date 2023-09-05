@@ -32,14 +32,13 @@ import java.util.regex.Pattern;
 import static java.lang.Thread.sleep;
 
 @Component
-@Slf4j
 public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
     private ExecutionContext exc;
     private int idx;
 
     @Override
-    public StudyProjectDto read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public StudyProjectDto read() {
 
          /*
         데이터 목록

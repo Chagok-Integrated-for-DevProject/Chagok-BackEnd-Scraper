@@ -2,6 +2,7 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 
 import com.project.chagok.backend.scraper.batch.constants.CollectedIdxKey;
 import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.factory.WebDriverFactory;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +26,17 @@ import static java.lang.Thread.sleep;
 @RequiredArgsConstructor
 public class ContestKoreaTasklet implements Tasklet {
 
-    private final WebDriver chromeDriver;
+
+    private final WebDriverFactory webDriverFactory;
+    private WebDriver chromeDriver;
 
     // 공모전 url
     private final String hackaThonUrl = "https://contestkorea.com/sub/list.php?int_gbn=1&Txt_bcode=030510001";
 
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws MalformedURLException {
 
+        chromeDriver = webDriverFactory.getChromeDriver();
         // 수집했던 방문 인덱스 조회
         Long collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.CONTEST_KOREA.getKey());
         // 이전에 수집했던 인덱스를 기반으로 초기화
@@ -79,6 +84,8 @@ public class ContestKoreaTasklet implements Tasklet {
                 BatchContextUtil.saveDataInContext(chunkContext, ParsingUrlKey.CONTEST_KOREA.getKey(), willParseUrls);
                 // job execution 컨텍스트에 current idx 저장
                 BatchContextUtil.saveDataInContext(chunkContext, CollectedIdxKey.CONTEST_KOREA.getKey(), currentIdx);
+
+                chromeDriver.quit();
 
                 return RepeatStatus.FINISHED;
             }
