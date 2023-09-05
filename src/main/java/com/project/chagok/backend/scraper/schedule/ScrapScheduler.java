@@ -31,7 +31,7 @@ public class ScrapScheduler {
         this.jobLauncher = jobLauncher;
     }
 
-    @Scheduled(cron = "0 */3 * * * *")
+    @Scheduled(cron = "0 */15 * * * *")
     public void holaScrapScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         jobLauncher.run(holaJob, BatchUtil.getJobParamWithTime(JobSiteType.HOLA));
