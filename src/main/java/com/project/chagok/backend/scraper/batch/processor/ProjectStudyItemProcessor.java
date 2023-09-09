@@ -6,7 +6,6 @@ import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import com.project.chagok.backend.scraper.service.TokenizeService;
 import com.project.chagok.backend.scraper.util.TechsToHashConverter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ProjectStudyItemProcessor implements ItemProcessor<StudyProjectDto, StudyProjectDto> {
 
     private final TokenizeService tokenizeService;
@@ -49,7 +47,6 @@ public class ProjectStudyItemProcessor implements ItemProcessor<StudyProjectDto,
                 String skill = skillsMap.get(token);
                 if (skill != null) { // 해당 skills hashset에 키워드가 존재한다면, 추가.
                     skills.add(skill);
-                    log.info("added to " + skill);
                 }
             }
             item.setTechList(new ArrayList<>(skills));
