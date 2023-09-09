@@ -81,12 +81,20 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
 
             JsonNode boardJson = objectMapper.readTree(boardJsonString);
 
+            // 제목 파싱
             String title = boardJson.get("title").asText();
+            // 태그를 포함한 본문 파싱
             String content = boardJson.get("content").toString().replace("\\\"", "\"");
+            // 태그를 제거한 본문 파싱
+            String noTagContent = Jsoup.parse(boardJson.get("content").toString()).text();
+            // 닉네임 파싱
             String nickname = boardJson.get("author").get("nickName").asText();
+            // 생성일 파싱
             LocalDateTime createdTime = convertFromDateString(boardJson.get("createdAt").asText());
+            // 기술 태그 파싱
             List<String> techStacksList = new ArrayList<>();
             boardJson.get("language").elements().forEachRemaining(techstack -> techStacksList.add(techstack.asText()));
+            // 카테고리 파싱
             CategoryType category = extractCategoryFromJSon(boardJson.get("type").asText());
 
 
@@ -99,6 +107,7 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
                     .sourceUrl(boardUrl)
                     .categoryType(category)
                     .techList(techStacksList)
+                    .noTagContent(noTagContent)
                     .build();
 
             return studyProjectDto;

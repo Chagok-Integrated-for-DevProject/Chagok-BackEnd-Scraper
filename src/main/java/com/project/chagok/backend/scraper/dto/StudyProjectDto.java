@@ -24,5 +24,5 @@ public class StudyProjectDto {
     private CategoryType categoryType;
     private String content;
     private List<String> techList;
-
+    private String noTagContent;
 }

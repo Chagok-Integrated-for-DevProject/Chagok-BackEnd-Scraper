@@ -91,10 +91,11 @@ public class BatchJobConfig {
 
     @Bean
     @Qualifier("secondOkkyChunkStep")
-    public Step secondOkkyChunkStep(OkkyItemReader okkyItemReader, ProejctStudyItemWriter proejctStudyItemWriter) {
+    public Step secondOkkyChunkStep(OkkyItemReader okkyItemReader, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
         return new StepBuilder("secondOkkyChunkStep", jobRepository)
                 .<StudyProjectDto, StudyProjectDto>chunk(3, transactionManager)
                 .reader(okkyItemReader)
+                .processor(projectStudyItemProcessor)
                 .writer(proejctStudyItemWriter)
                 .faultTolerant()
                 .skip(Throwable.class)
@@ -124,10 +125,11 @@ public class BatchJobConfig {
 
     @Bean
     @Qualifier("secondInflearnChunkStep")
-    public Step secondInflearnChunkStep(InflearnItemReader inflearnItemReader, ProejctStudyItemWriter proejctStudyItemWriter) {
+    public Step secondInflearnChunkStep(InflearnItemReader inflearnItemReader, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
         return new StepBuilder("secondOkkyChunkStep", jobRepository)
                 .<StudyProjectDto, StudyProjectDto>chunk(3, transactionManager)
                 .reader(inflearnItemReader)
+                .processor(projectStudyItemProcessor)
                 .writer(proejctStudyItemWriter)
                 .build();
     }

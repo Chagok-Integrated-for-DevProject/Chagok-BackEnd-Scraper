@@ -100,11 +100,17 @@ public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutio
             String boardJsonString = parser.select("body").first().html().replaceAll("\"\\\\&quot;|\\\\&quot;\"", "\\\\\"");
 
             JsonNode boardJson = objectMapper.readTree(boardJsonString);
-
+            // 제목 파싱
             String title = boardJson.get("pageProps").get("result").get("title").asText();
+            // 닉네임 파싱
             String nickname = boardJson.get("pageProps").get("result").get("displayAuthor").get("nickname").asText();
+            // 본문 파싱
             String content = boardJson.get("pageProps").get("result").get("content").get("text").toString().replace("\\\"", "\"");
+            // html 태그 제거한 본문 파싱
+            String noTagContent = Jsoup.parse(boardJson.get("pageProps").get("result").get("content").get("text").toString()).text();
+            // 생성일 파싱
             LocalDateTime createdTime = LocalDateTime.parse(boardJson.get("pageProps").get("result").get("dateCreated").asText());
+            // 기술태그 파싱
             List<String> techStacksList = new ArrayList<>();
             boardJson.get("pageProps").get("result").get("tags").elements().forEachRemaining(techElement -> techStacksList.add(techElement.get("name").asText()));
             String sourceUrl = boardUrl;
@@ -119,6 +125,7 @@ public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutio
                     .sourceUrl(sourceUrl)
                     .categoryType(category)
                     .techList(techStacksList)
+                    .noTagContent(noTagContent)
                     .build();
 
             return studyProjectDto;

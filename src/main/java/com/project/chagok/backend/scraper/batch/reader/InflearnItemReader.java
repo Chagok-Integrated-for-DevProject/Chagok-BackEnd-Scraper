@@ -90,6 +90,9 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
             final String contentSelector = ".content__body.markdown-body";
             String content = parser.selectFirst(contentSelector).toString();
 
+            // 태그를 제외한 본문 파싱
+            String noTagContent = parser.selectFirst(contentSelector).text();
+
             // 원글 url
             String sourceUrl = boardUrl;
 
@@ -105,6 +108,7 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
                     .sourceUrl(sourceUrl)
                     .categoryType(type)
                     .techList(techStacks)
+                    .noTagContent(noTagContent)
                     .build();
 
             return studyProjectDto;

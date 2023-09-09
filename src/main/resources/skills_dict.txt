@@ -1,0 +1,107 @@
+JavaScript:
+  자바스크립트
+  js스크립트
+  javascript
+  js
+TypeScript:
+   타입스크립트
+   typescript
+   ts
+Vue:
+    뷰
+    vue
+    vue.js
+React:
+   react
+   리액트
+   리엑트
+   react.js
+Svelte:
+    svelte
+Nextjs:
+    next
+    넥스트
+    넥스트js
+    nextjs
+    next.js
+Nodejs:
+    노드js
+    nodejs
+    node
+Java:
+    자바
+    java
+Spring:
+    스프링
+    spring
+    springboot
+    스프링부트
+Go:
+    go
+    고언어
+Nestjs:
+    네스트
+    네스트js
+    nestjs
+    nest.js
+Python:
+    파이썬
+    python
+Kotlin:
+    코틀린
+    kotlin
+Express:
+    익스프레스
+    express
+MySQL:
+    mysql
+MongoDB:
+    몽고db
+    몽고
+    mongo
+Django:
+    장고
+    d장고
+    django
+php:
+    php
+GraphQL:
+    그래프ql
+    graphql
+Firebase:
+    파이어베이스
+    firebase
+Flutter:
+    플러터
+    flutter
+Swift:
+    스위프트
+    swift
+ReactNative:
+    native
+    reactnative
+    네이티브
+    리액트네이티브
+Unity:
+    유니티
+    unity
+AWS:
+    aws
+Kubernetes:
+    쿠버네티스
+    kubernetes
+Docker:
+    도커
+    docker
+Git:
+    깃
+    git
+Figma:
+    피그마
+    figma
+Zeplin:
+    zeplin
+Jest:
+    jest
+C:
+    c언어
