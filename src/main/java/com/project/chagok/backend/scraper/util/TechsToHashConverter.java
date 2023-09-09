@@ -1,10 +1,12 @@
 package com.project.chagok.backend.scraper.util;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.*;
 import java.nio.file.FileSystemException;
 import java.util.HashMap;
+
 
 public class TechsToHashConverter {
 
@@ -12,8 +14,9 @@ public class TechsToHashConverter {
 
         HashMap<String, String> skillsMap = new HashMap<>();
 
-        String filePath = "src/main/resources/skills_dict.txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        String filePath = "data/skills_dict.txt";
+        try (InputStream inputStream = new ClassPathResource(filePath).getInputStream();
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String parsingData;
             String skillKey = null;
             while ((parsingData = reader.readLine()) != null) {
