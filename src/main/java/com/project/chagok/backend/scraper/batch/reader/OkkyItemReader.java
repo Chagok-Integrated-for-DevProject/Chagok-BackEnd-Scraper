@@ -102,8 +102,6 @@ public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutio
             JsonNode boardJson = objectMapper.readTree(boardJsonString);
             // 제목 파싱
             String title = boardJson.get("pageProps").get("result").get("title").asText();
-            // 닉네임 파싱
-            String nickname = boardJson.get("pageProps").get("result").get("displayAuthor").get("nickname").asText();
             // 본문 파싱
             String content = boardJson.get("pageProps").get("result").get("content").get("text").toString().replace("\\\"", "\"");
             // html 태그 제거한 본문 파싱
@@ -120,7 +118,6 @@ public class OkkyItemReader implements ItemReader<StudyProjectDto>, StepExecutio
                     .siteType(SiteType.OKKY)
                     .title(title)
                     .content(content)
-                    .nickname(nickname)
                     .createdDate(createdTime)
                     .sourceUrl(sourceUrl)
                     .categoryType(category)

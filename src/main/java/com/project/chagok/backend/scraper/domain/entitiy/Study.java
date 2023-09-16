@@ -22,15 +22,12 @@ public class Study {
 
     private String title;
 
-    private String nickname;
-
     private LocalDateTime createdTime;
 
     private int viewCount;
 
     private String sourceUrl;
 
-    @Column(columnDefinition = "text")
     private String content;
 
     private int hotCount;

@@ -27,7 +27,6 @@ public class Contest {
 
     private String host;
 
-    @Column(columnDefinition = "text")
     private String content;
 
     private String imageUrl;

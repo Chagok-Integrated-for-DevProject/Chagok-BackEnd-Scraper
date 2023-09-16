@@ -17,7 +17,6 @@ import java.util.List;
 public class StudyProjectDto {
 
     private SiteType siteType;
-    private String nickname;
     private String title;
     private LocalDateTime createdDate;
     private String sourceUrl;

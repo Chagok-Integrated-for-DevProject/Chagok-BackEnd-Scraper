@@ -22,15 +22,12 @@ public class Project {
 
     private String title;
 
-    private String nickname;
-
     private LocalDateTime createdTime;
 
     private int viewCount;
 
     private String sourceUrl;
 
-    @Column(columnDefinition = "text")
     private String content;
 
     private int scrapCount;

@@ -73,10 +73,6 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
             final String titleSelector = ".header__title h1";
             String title = parser.selectFirst(titleSelector).text();
 
-            // 닉네임 파싱
-            final String nicknameSelector = ".user-name a";
-            String nickname = parser.selectFirst(nicknameSelector).text();
-
             // 작성일 파싱
             final String createdDateSelector = ".sub-title__value";
             LocalDateTime createdDate = extractDateFromDateString(parser.selectFirst(createdDateSelector).text());
@@ -103,7 +99,6 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
                     .siteType(SiteType.INFLEARN)
                     .title(title)
                     .content(content)
-                    .nickname(nickname)
                     .createdDate(createdDate)
                     .sourceUrl(sourceUrl)
                     .categoryType(type)

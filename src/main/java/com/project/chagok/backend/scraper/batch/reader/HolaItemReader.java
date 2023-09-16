@@ -1,17 +1,15 @@
 package com.project.chagok.backend.scraper.batch.reader;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
-import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.CategoryType;
 import com.project.chagok.backend.scraper.constants.SiteType;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.batch.core.ExitStatus;
@@ -82,13 +80,11 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
             JsonNode boardJson = objectMapper.readTree(boardJsonString);
 
             // 제목 파싱
-            String title = boardJson.get("title").asText();
-            // 태그를 포함한 본문 파싱
-            String content = boardJson.get("content").toString().replace("\\\"", "\"");
+            String title = StringEscapeUtils.unescapeHtml4(boardJson.get("title").asText());
+            // 태그를 포함한 본문 파싱, escape 슬래쉬 제거 및 본문에 \t가 나타나서 제거
+            String content = StringEscapeUtils.unescapeHtml4(boardJson.get("content").toString().replace("\\\"", "\"").replace("\\t", ""));
             // 태그를 제거한 본문 파싱
             String noTagContent = Jsoup.parse(boardJson.get("content").toString()).text();
-            // 닉네임 파싱
-            String nickname = boardJson.get("author").get("nickName").asText();
             // 생성일 파싱
             LocalDateTime createdTime = convertFromDateString(boardJson.get("createdAt").asText());
             // 기술 태그 파싱
@@ -102,7 +98,6 @@ public class HolaItemReader implements ItemReader<StudyProjectDto>, StepExecutio
                     .siteType(SiteType.HOLA)
                     .title(title)
                     .content(content)
-                    .nickname(nickname)
                     .createdDate(createdTime)
                     .sourceUrl(boardUrl)
                     .categoryType(category)

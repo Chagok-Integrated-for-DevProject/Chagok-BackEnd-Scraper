@@ -27,11 +27,6 @@ public class ProjectStudyItemProcessor implements ItemProcessor<StudyProjectDto,
     @Override
     public StudyProjectDto process(StudyProjectDto item) {
 
-        if (item.getSiteType() == SiteType.HOLA) { // HOLA 사이트, 본문에 \t가 나타나서 제거
-            if (item.getContent().contains("\\t"))
-                item.setContent(item.getContent().replace("\\t", ""));
-        }
-
         HashSet<String> skills = new HashSet<>();
 
         // 본문 토큰화
