@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
@@ -17,16 +19,18 @@ public class InflearnVisitor implements SiteVisitor{
 
     private final StudyRepository studyRepository;
     private final ProjectRepository projectRepository;
-    private LocalDateTime visitTimeIdx;
+    private Long visitTimeIdx;
 
     @Override
     public boolean isVisit(String url) {
-        throw new UnsupportedOperationException();
+        Long boardId = extractBoardId(url);
+
+        return visitTimeIdx >= boardId;
     }
 
     @Override
     public boolean isVisit(LocalDateTime createdTime) {
-        return visitTimeIdx.isAfter(createdTime) || visitTimeIdx.isEqual(createdTime);
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -37,17 +41,29 @@ public class InflearnVisitor implements SiteVisitor{
     public void studyInit() {
         Optional<Study> recentStudyData = studyRepository.findFirstBySiteTypeOrderByCreatedTimeDesc(SiteType.INFLEARN);
         if (recentStudyData.isPresent())
-            visitTimeIdx = recentStudyData.get().getCreatedTime();
+            visitTimeIdx = extractBoardId(recentStudyData.get().getSourceUrl());
         else
-            visitTimeIdx = LocalDateTime.MIN;
+            visitTimeIdx = 0L;
     }
 
     public void projectInit() {
         Optional<Project> recentStudyData = projectRepository.findFirstBySiteTypeOrderByCreatedTimeDesc(SiteType.INFLEARN);
         if (recentStudyData.isPresent())
-            visitTimeIdx = recentStudyData.get().getCreatedTime();
+            visitTimeIdx = extractBoardId(recentStudyData.get().getSourceUrl());
         else
-            visitTimeIdx = LocalDateTime.MIN;
+            visitTimeIdx = 0L;
     }
 
+    // 게시글 id 추출
+    private Long extractBoardId(String url) {
+        String pattern = "/(?:studies|projects)/(\\d+)";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher matcher = r.matcher(url);
+
+        if (matcher.find()) {
+            return Long.parseLong(matcher.group(1));
+        }
+        return null;
+    }
 }

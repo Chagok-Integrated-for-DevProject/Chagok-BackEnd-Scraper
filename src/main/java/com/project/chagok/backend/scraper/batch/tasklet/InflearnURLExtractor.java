@@ -66,7 +66,7 @@ public class InflearnURLExtractor extends URLExtractorBase{
                 String url = listItemElement.selectFirst("a").absUrl("href");
 
                 // 한 달 전인지 검증 or 이미 방문한 사이트인지 검증
-                if (!validateDate(createdDate) || visitor.isVisit(createdDate)) {
+                if (!validateDate(createdDate) || visitor.isVisit(url)) {
                     return willParseUrls;
                 }
 

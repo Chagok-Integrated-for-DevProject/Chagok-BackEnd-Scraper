@@ -1,7 +1,6 @@
 package com.project.chagok.backend.scraper.batch.processor;
 
 
-import com.project.chagok.backend.scraper.constants.SiteType;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import com.project.chagok.backend.scraper.service.TokenizeService;
 import com.project.chagok.backend.scraper.util.TechsToHashConverter;

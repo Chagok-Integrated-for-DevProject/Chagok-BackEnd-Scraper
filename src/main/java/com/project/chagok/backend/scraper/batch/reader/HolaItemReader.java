@@ -3,7 +3,6 @@ package com.project.chagok.backend.scraper.batch.reader;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.CategoryType;
