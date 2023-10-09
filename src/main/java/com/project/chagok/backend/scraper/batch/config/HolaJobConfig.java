@@ -1,6 +1,5 @@
 package com.project.chagok.backend.scraper.batch.config;
 
-import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
 import com.project.chagok.backend.scraper.batch.listener.VisitorListener;
 import com.project.chagok.backend.scraper.batch.processor.ProjectStudyItemProcessor;
 import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;

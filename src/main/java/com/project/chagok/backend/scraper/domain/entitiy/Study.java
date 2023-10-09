@@ -43,6 +43,6 @@ public class Study {
     @ElementCollection(targetClass = String.class,fetch = FetchType.LAZY)
     @CollectionTable(name = "study_tech_stacks", joinColumns = @JoinColumn(name = "study_id"))
     @Column(name = "tech_stack", nullable = false)
-    private List<String> techStacks = new ArrayList<>();
+    private List<String> techStacks;
 
 }

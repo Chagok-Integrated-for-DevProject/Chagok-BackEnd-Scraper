@@ -42,5 +42,5 @@ public class Project {
     @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
     @CollectionTable(name = "project_tech_stacks", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "tech_stacks", nullable = false)
-    private List<String> techStacks = new ArrayList<>();
+    private List<String> techStacks;
 }
