@@ -38,7 +38,11 @@ public class BatchContextUtil {
 
     public static Object getDataInContext(JobExecution jobExecution, String key) {
         ExecutionContext exc = getExecutionContextOfJob(jobExecution);
+        return exc.get(key);
+    }
 
+    public static Object getDataInContext(StepExecution stepExecution, String key) {
+        ExecutionContext exc = getExecutionContextOfJob(stepExecution);
         return exc.get(key);
     }
 

@@ -1,9 +1,11 @@
 package com.project.chagok.backend.scraper.batch.config;
 
-import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
+import com.project.chagok.backend.scraper.batch.listener.InflearnVisitorListener;
+import com.project.chagok.backend.scraper.batch.listener.VisitorListener;
 import com.project.chagok.backend.scraper.batch.processor.ProjectStudyItemProcessor;
 import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
-import com.project.chagok.backend.scraper.batch.tasklet.InflearnTasklet;
+import com.project.chagok.backend.scraper.batch.sitevisit.InflearnVisitor;
+import com.project.chagok.backend.scraper.batch.tasklet.InflearnURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +26,13 @@ public class InflearnJobConfig {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
-    private final ScrapJobListener scrapJobListener;
 
     @Bean
     @Qualifier("inflearnJob")
-    public Job inflearnJob(@Qualifier("firstInflearnStep") Step firstStep, @Qualifier("secondInflearnChunkStep") Step secondStep) {
+    public Job inflearnJob(@Qualifier("firstInflearnStep") Step firstStep, @Qualifier("secondInflearnChunkStep") Step secondStep, InflearnVisitor visitor) {
         return new JobBuilder("inflearnJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .listener(scrapJobListener)
+                .listener(new InflearnVisitorListener(visitor))
                 .start(firstStep)
                 .next(secondStep)
                 .build();
@@ -40,9 +41,9 @@ public class InflearnJobConfig {
 
     @Bean
     @Qualifier("firstInflearnStep")
-    public Step firstInflearnStep(InflearnTasklet inflearnTasklet) {
+    public Step firstInflearnStep(InflearnURLExtractor inflearnURLExtractor) {
         return new StepBuilder("firstInflearnStep", jobRepository)
-                .tasklet(inflearnTasklet, transactionManager)
+                .tasklet(inflearnURLExtractor, transactionManager)
                 .build();
     }
 

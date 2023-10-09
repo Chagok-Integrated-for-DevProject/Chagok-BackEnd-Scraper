@@ -17,6 +17,7 @@ public class ContestItemWriter implements ItemWriter<ContestDto> {
 
     @Override
     public void write(Chunk<? extends ContestDto> chunk) throws Exception {
+        log.info(chunk.toString());
         chunk.forEach(scrapService::saveContest);
     }
 }

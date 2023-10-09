@@ -1,9 +1,11 @@
 package com.project.chagok.backend.scraper.batch.config;
 
 import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
+import com.project.chagok.backend.scraper.batch.listener.VisitorListener;
 import com.project.chagok.backend.scraper.batch.processor.ProjectStudyItemProcessor;
 import com.project.chagok.backend.scraper.batch.reader.OkkyItemReader;
-import com.project.chagok.backend.scraper.batch.tasklet.OkkyTasklet;
+import com.project.chagok.backend.scraper.batch.sitevisit.OkkyVisitor;
+import com.project.chagok.backend.scraper.batch.tasklet.OkkyURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
 import com.project.chagok.backend.scraper.dto.StudyProjectDto;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +27,13 @@ public class OkkyJobConfig {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
-    private final ScrapJobListener scrapJobListener;
 
     @Bean
     @Qualifier("okkyJob")
-    public Job okkyJob(@Qualifier("firstOkkyStep") Step firstStep, @Qualifier("secondOkkyChunkStep") Step secondStep) {
+    public Job okkyJob(@Qualifier("firstOkkyStep") Step firstStep, @Qualifier("secondOkkyChunkStep") Step secondStep, OkkyVisitor visitor) {
         return new JobBuilder("okkyJob", jobRepository)
-                .listener(scrapJobListener)
                 .incrementer(new RunIdIncrementer())
+                .listener(new VisitorListener(visitor))
                 .start(firstStep)
                 .next(secondStep)
                 .build();
@@ -40,9 +41,9 @@ public class OkkyJobConfig {
 
     @Bean
     @Qualifier("firstOkkyStep")
-    public Step firstOkkyStep(OkkyTasklet okkyTasklet) {
+    public Step firstOkkyStep(OkkyURLExtractor okkyURLExtractor) {
         return new StepBuilder("firstOkkyStep", jobRepository)
-                .tasklet(okkyTasklet, transactionManager)
+                .tasklet(okkyURLExtractor, transactionManager)
                 .build();
     }
 

@@ -15,6 +15,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@Getter
 public class Study {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

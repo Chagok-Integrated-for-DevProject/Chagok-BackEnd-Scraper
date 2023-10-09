@@ -2,6 +2,7 @@ package com.project.chagok.backend.scraper.batch.reader;
 
 import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.util.BatchUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import com.project.chagok.backend.scraper.dto.ContestDto;
 import org.jsoup.Jsoup;
@@ -25,8 +26,8 @@ import static java.lang.Thread.sleep;
 @Component
 public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecutionListener {
 
-    private ExecutionContext exc;
     private int idx;
+    List<String> boardUrls = null;
 
     @Override
     public ContestDto read() {
@@ -48,10 +49,7 @@ public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecu
         }
 
         Document parser;
-        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.CONTEST_KOREA.getKey());
-
         if (idx < boardUrls.size()) {
-
             String boardUrl = boardUrls.get(idx++);
 
             try {
@@ -127,9 +125,8 @@ public class ContestKoreaItemReader implements ItemReader<ContestDto>, StepExecu
 
         // 인덱스 초기화
         idx = 0;
-        // Execution Context 초기화
-        exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
-
+        // 파싱할 url 초기화
+        boardUrls = (List<String>) BatchContextUtil.getDataInContext(stepExecution, BatchUtil.SITE_URLS);
     }
 
     @Override

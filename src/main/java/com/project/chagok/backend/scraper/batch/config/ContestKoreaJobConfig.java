@@ -1,8 +1,7 @@
 package com.project.chagok.backend.scraper.batch.config;
 
-import com.project.chagok.backend.scraper.batch.listener.ScrapJobListener;
 import com.project.chagok.backend.scraper.batch.reader.ContestKoreaItemReader;
-import com.project.chagok.backend.scraper.batch.tasklet.ContestKoreaTasklet;
+import com.project.chagok.backend.scraper.batch.tasklet.ContextKoreaURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ContestItemWriter;
 import com.project.chagok.backend.scraper.dto.ContestDto;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ public class ContestKoreaJobConfig {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
-    private final ScrapJobListener scrapJobListener;
 
 
     @Bean
@@ -31,7 +29,6 @@ public class ContestKoreaJobConfig {
     public Job contestJob(@Qualifier("firstContestStep") Step firstStep, @Qualifier("secondContestChunkStep") Step secondStep) {
         return new JobBuilder("contestKoreaJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .listener(scrapJobListener)
                 .start(firstStep)
                 .next(secondStep)
                 .build();
@@ -39,9 +36,9 @@ public class ContestKoreaJobConfig {
 
     @Bean
     @Qualifier("firstContestKoreaStep")
-    public Step firstContestStep(ContestKoreaTasklet contestKoreaTasklet) {
+    public Step firstContestStep(ContextKoreaURLExtractor contextKoreaURLExtractor) {
         return new StepBuilder("firstContestKoreaStep", jobRepository)
-                .tasklet(contestKoreaTasklet, transactionManager)
+                .tasklet(contextKoreaURLExtractor, transactionManager)
                 .build();
     }
 

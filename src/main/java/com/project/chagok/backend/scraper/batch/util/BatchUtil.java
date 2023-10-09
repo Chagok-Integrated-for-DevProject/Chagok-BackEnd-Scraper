@@ -8,6 +8,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 public class BatchUtil {
 
     public static final String SITE_TYPE_KEY = "site_type_key";
+    public static final String SITE_URLS = "site_urls";
 
     public static JobParameters getJobParamWithTime(JobSiteType jobSiteType) {
 

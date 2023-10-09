@@ -3,39 +3,35 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
-import com.project.chagok.backend.scraper.batch.constants.CollectedIdxKey;
-import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
+import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
+import com.project.chagok.backend.scraper.batch.sitevisit.OkkyVisitor;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
 @Component
-public class OkkyTasklet implements Tasklet {
+public class OkkyURLExtractor extends URLExtractorBase{
+
+    public OkkyURLExtractor(OkkyVisitor visitor) {
+        super(visitor);
+    }
 
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext)  {
-
-        Long collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.OKKY.getKey());
+    List<String> extractURL(JobSiteType jobSiteType) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Document parser;
 
         ArrayList<String> willParseUrls = new ArrayList<>();
-
-        Long currentIdx = -1L; // 현재 수집하는, 첫번째로 접근한 글에 대한 인덱스
 
         for (int page = 1; ; page++) {
             String nextUrl = "https://okky.kr/community/gathering?page=" + page;
@@ -68,20 +64,12 @@ public class OkkyTasklet implements Tasklet {
                     // url 구성
                     String boardUrl = "https://okky.kr/articles/" + boardId;
 
-                    if (currentIdx == -1L)
-                        currentIdx = boardId;
-
-                    if (!validateDate(createdDate) || isVisited(collectedIdx, boardId)) {
-                        // job execution context에 파싱할 url list 저장
-                        BatchContextUtil.saveDataInContext(chunkContext, ParsingUrlKey.OKKY.getKey(), willParseUrls);
-                        // job execution context에 수집했던 첫번째 게시글에 대한 수집 index저장
-                        BatchContextUtil.saveDataInContext(chunkContext, CollectedIdxKey.OKKY.getKey(), currentIdx);
-
-                        return RepeatStatus.FINISHED;
+                    if (!validateDate(createdDate) || visitor.isVisit(createdDate)) {
+                        return willParseUrls;
                     }
+
                     willParseUrls.add(boardUrl);
                 }
-
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -105,8 +93,5 @@ public class OkkyTasklet implements Tasklet {
 
         return createdDate.isAfter(beforeOneMonth);
     }
-    // 인덱스기반 수집 유무
-    boolean isVisited(Long visitIdx, Long boardId) {
-        return visitIdx >= boardId;
-    }
+
 }

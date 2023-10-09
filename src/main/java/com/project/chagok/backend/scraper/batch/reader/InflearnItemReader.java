@@ -29,8 +29,8 @@ import static java.lang.Thread.sleep;
 @Component
 public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExecutionListener {
 
-    private ExecutionContext exc;
     private int idx;
+    private List<String> boardUrls = null;
 
     @Override
     public StudyProjectDto read() {
@@ -45,8 +45,6 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
         6. 타입(프로젝트 or 스터디)
         7. 본문
          */
-
-        List<String> boardUrls = (List<String>) exc.get(ParsingUrlKey.INFLEARN.getKey());
 
         try {
             sleep(TimeDelay.MEDIUM);
@@ -141,12 +139,12 @@ public class InflearnItemReader implements ItemReader<StudyProjectDto>, StepExec
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        idx = 0;
-
         StepExecutionListener.super.beforeStep(stepExecution);
 
-        // Execution Context 초기화
-        exc = BatchContextUtil.getExecutionContextOfJob(stepExecution);
+        // index 초기화
+        idx = 0;
+        // 파싱할 url 초기화
+        boardUrls = (List<String>) BatchContextUtil.getDataInContext(stepExecution, BatchUtil.SITE_URLS);
     }
 
     @Override

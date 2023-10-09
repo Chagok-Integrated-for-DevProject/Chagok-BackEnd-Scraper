@@ -3,15 +3,14 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
 import com.project.chagok.backend.scraper.batch.constants.CollectedIdxKey;
+import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
+import com.project.chagok.backend.scraper.batch.constants.ParsingUrlKey;
+import com.project.chagok.backend.scraper.batch.sitevisit.HolaVisitor;
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
@@ -22,30 +21,31 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
 @Component
-public class HolaUrlTasklet implements Tasklet {
+public class HolaURLExtractor extends URLExtractorBase{
+
+    public HolaURLExtractor(HolaVisitor visitor) {
+        super(visitor);
+    }
+
+    // apiUrl 주소
+    final String apiUrl = "https://api.holaworld.io/api/posts/pagination?sort=-createdAt&position=ALL&type=0&isClosed=false&page=";
 
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
-
-        // 수집했던 방문 인덱스 조회
-        Long collectedIdx = (Long) BatchContextUtil.getDataInContext(chunkContext, CollectedIdxKey.HOLA.getKey());
+    List<String> extractURL(JobSiteType jobSiteType) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Document parser;
 
         ArrayList<String> willParseUrls = new ArrayList<>();
 
-        Long currentIdx = -1L; // 현재 수집하는, 첫번째로 접근한 글에 대한 인덱스
-
         for (int page = 1; ; page++) {
 
-            // apiUrl 주소에 page 추가
-            // board api server
-            String apiUrl = "https://api.holaworld.io/api/posts/pagination?sort=-createdAt&position=ALL&type=0&isClosed=false&page=";
+            // board api server 주소
             String nextUrl = apiUrl + page;
 
             try {
@@ -60,7 +60,6 @@ public class HolaUrlTasklet implements Tasklet {
 
             // 게시글 리스트 JSON 파싱 - 마감일이 지나지 않은 것만
             String listItemsString = parser.select("body").text();
-
 
             try {
                 JsonNode listItemsJson = objectMapper.readTree(listItemsString);
@@ -80,17 +79,9 @@ public class HolaUrlTasklet implements Tasklet {
                     // 수집할 url 구성
                     String boardUrl = "https://holaworld.io/study/" + boardId;
 
-                    if (currentIdx == -1L) // 최초 수집시, index 갱신. 글 작성일을 기준으로 index판단
-                        currentIdx = timeToSeconds(createdDate);
-
                     // 한달 이후 게시글이거나, 이미 방문한 글이라면 종료(순차적 접근)
-                    if (!validateDate(createdDate) || isVisited(collectedIdx, createdDate)) {
-                        // job execution context에 파싱할 URL 저장
-                        BatchContextUtil.saveDataInContext(chunkContext, ParsingUrlKey.HOLA.getKey(), willParseUrls);
-                        // job execution context에 수집했던 첫번째 게시글에 대한 수집 index저장
-                        BatchContextUtil.saveDataInContext(chunkContext, CollectedIdxKey.HOLA.getKey(), currentIdx);
-
-                        return RepeatStatus.FINISHED;
+                    if (!validateDate(createdDate) || visitor.isVisit(createdDate)) {
+                        return willParseUrls;
                     }
 
                     // 마감일 검사
@@ -134,16 +125,6 @@ public class HolaUrlTasklet implements Tasklet {
     private boolean validateDeadLine(LocalDateTime deadLineDate) {
         // 마감일이 현재 날짜 이후라면, true
         return deadLineDate.isAfter(LocalDateTime.now());
-    }
-
-    // 초 단위 시간 변경
-    private Long timeToSeconds(LocalDateTime localDateTime) {
-        return localDateTime.toEpochSecond(ZoneOffset.UTC);
-    }
-
-    // 방문 유무
-    private boolean isVisited(Long colletedIdx, LocalDateTime boardDateTime) {
-        return colletedIdx >= timeToSeconds(boardDateTime);
     }
 
 }
