@@ -11,6 +11,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,9 @@ public class ContestKoreaJobConfig {
                 .<ContestDto, ContestDto>chunk(3, transactionManager)
                 .reader(contestKoreaScraper)
                 .writer(contestItemWriter)
+                .faultTolerant()
+                .skip(Throwable.class)
+                .skipPolicy(new AlwaysSkipItemSkipPolicy())
                 .build();
     }
 }

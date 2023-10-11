@@ -2,6 +2,7 @@ package com.project.chagok.backend.scraper.batch.reader;
 
 import com.project.chagok.backend.scraper.batch.util.BatchContextUtil;
 import com.project.chagok.backend.scraper.batch.util.BatchUtil;
+import com.project.chagok.backend.scraper.constants.TimeDelay;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
@@ -12,6 +13,8 @@ import org.springframework.batch.item.UnexpectedInputException;
 
 import java.io.IOException;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public abstract class ScrapItemReader<T> implements ItemReader<T>, StepExecutionListener {
 
@@ -24,9 +27,10 @@ public abstract class ScrapItemReader<T> implements ItemReader<T>, StepExecution
         if (hasNext()) {
             String boardUrl = next();
 
+            sleep(TimeDelay.MEDIUM);
+
             return getBoardDto(boardUrl);
         }
-
 
         return null;
     }
