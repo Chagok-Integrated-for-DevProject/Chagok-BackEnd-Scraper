@@ -29,11 +29,6 @@ public class InflearnVisitor implements SiteVisitor{
     }
 
     @Override
-    public boolean isVisit(LocalDateTime createdTime) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void init() {
         throw new UnsupportedOperationException();
     }

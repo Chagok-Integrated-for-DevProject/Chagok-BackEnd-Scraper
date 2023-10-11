@@ -75,7 +75,7 @@ public class HolaURLExtractor extends URLExtractorBase{
                     String boardUrl = "https://holaworld.io/study/" + boardId;
 
                     // 한달 이후 게시글이거나, 이미 방문한 글이라면 종료(순차적 접근)
-                    if (!validateDate(createdDate) || visitor.isVisit(createdDate)) {
+                    if (!validateDate(createdDate) || isVisit(createdDate)) {
                         return willParseUrls;
                     }
 

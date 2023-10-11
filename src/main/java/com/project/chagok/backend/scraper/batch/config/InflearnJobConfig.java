@@ -1,9 +1,8 @@
 package com.project.chagok.backend.scraper.batch.config;
 
 import com.project.chagok.backend.scraper.batch.listener.InflearnVisitorListener;
-import com.project.chagok.backend.scraper.batch.listener.VisitorListener;
 import com.project.chagok.backend.scraper.batch.processor.ProjectStudyItemProcessor;
-import com.project.chagok.backend.scraper.batch.reader.InflearnItemReader;
+import com.project.chagok.backend.scraper.batch.reader.scraper.InflearnScraper;
 import com.project.chagok.backend.scraper.batch.sitevisit.InflearnVisitor;
 import com.project.chagok.backend.scraper.batch.tasklet.InflearnURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
@@ -49,10 +48,10 @@ public class InflearnJobConfig {
 
     @Bean
     @Qualifier("secondInflearnChunkStep")
-    public Step secondInflearnChunkStep(InflearnItemReader inflearnItemReader, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
+    public Step secondInflearnChunkStep(InflearnScraper inflearnScraper, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
         return new StepBuilder("secondOkkyChunkStep", jobRepository)
                 .<StudyProjectDto, StudyProjectDto>chunk(3, transactionManager)
-                .reader(inflearnItemReader)
+                .reader(inflearnScraper)
                 .processor(projectStudyItemProcessor)
                 .writer(proejctStudyItemWriter)
                 .build();

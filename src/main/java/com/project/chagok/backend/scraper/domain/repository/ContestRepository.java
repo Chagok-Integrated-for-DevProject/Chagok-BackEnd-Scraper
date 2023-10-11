@@ -13,5 +13,5 @@ import java.util.List;
 public interface ContestRepository extends JpaRepository<Contest, Long> {
 
     @Query("select c from Contest c where c.endDate > current_timestamp")
-    List<Contest> findAllInAMonth();
+    List<Contest> findAllOpenContests();
 }

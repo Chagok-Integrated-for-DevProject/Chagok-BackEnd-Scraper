@@ -1,6 +1,6 @@
 package com.project.chagok.backend.scraper.batch.config;
 
-import com.project.chagok.backend.scraper.batch.reader.ContestKoreaItemReader;
+import com.project.chagok.backend.scraper.batch.reader.scraper.ContestKoreaScraper;
 import com.project.chagok.backend.scraper.batch.tasklet.ContextKoreaURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ContestItemWriter;
 import com.project.chagok.backend.scraper.dto.ContestDto;
@@ -44,10 +44,10 @@ public class ContestKoreaJobConfig {
 
     @Bean
     @Qualifier("secondContestKoreaChunkStep")
-    public Step secondContestChunkStep(ContestKoreaItemReader contestKoreaItemReader, ContestItemWriter contestItemWriter) {
+    public Step secondContestChunkStep(ContestKoreaScraper contestKoreaScraper, ContestItemWriter contestItemWriter) {
         return new StepBuilder("secondContestKoreaChunkStep", jobRepository)
                 .<ContestDto, ContestDto>chunk(3, transactionManager)
-                .reader(contestKoreaItemReader)
+                .reader(contestKoreaScraper)
                 .writer(contestItemWriter)
                 .build();
     }

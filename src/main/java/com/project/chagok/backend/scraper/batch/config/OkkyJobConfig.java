@@ -2,7 +2,7 @@ package com.project.chagok.backend.scraper.batch.config;
 
 import com.project.chagok.backend.scraper.batch.listener.VisitorListener;
 import com.project.chagok.backend.scraper.batch.processor.ProjectStudyItemProcessor;
-import com.project.chagok.backend.scraper.batch.reader.OkkyItemReader;
+import com.project.chagok.backend.scraper.batch.reader.scraper.OkkyScraper;
 import com.project.chagok.backend.scraper.batch.sitevisit.OkkyVisitor;
 import com.project.chagok.backend.scraper.batch.tasklet.OkkyURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
@@ -48,10 +48,10 @@ public class OkkyJobConfig {
 
     @Bean
     @Qualifier("secondOkkyChunkStep")
-    public Step secondOkkyChunkStep(OkkyItemReader okkyItemReader, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
+    public Step secondOkkyChunkStep(OkkyScraper okkyScraper, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
         return new StepBuilder("secondOkkyChunkStep", jobRepository)
                 .<StudyProjectDto, StudyProjectDto>chunk(3, transactionManager)
-                .reader(okkyItemReader)
+                .reader(okkyScraper)
                 .processor(projectStudyItemProcessor)
                 .writer(proejctStudyItemWriter)
                 .faultTolerant()

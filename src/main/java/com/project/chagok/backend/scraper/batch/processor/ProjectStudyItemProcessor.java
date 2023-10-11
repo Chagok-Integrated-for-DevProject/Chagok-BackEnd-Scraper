@@ -7,6 +7,7 @@ import com.project.chagok.backend.scraper.util.TechsToHashConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +27,11 @@ public class ProjectStudyItemProcessor implements ItemProcessor<StudyProjectDto,
     @Override
     public StudyProjectDto process(StudyProjectDto item) {
 
-        HashSet<String> skills = new HashSet<>();
+        // html unescape
+        item.setContent(HtmlUtils.htmlUnescape(item.getContent()));
+        item.setTitle(HtmlUtils.htmlUnescape(item.getTitle()));
 
+        HashSet<String> skills = new HashSet<>();
         // 본문 토큰화
         List<String> wordTokens = tokenizeService.tokenizeKorAndEng(item.getNoTagContent());
 

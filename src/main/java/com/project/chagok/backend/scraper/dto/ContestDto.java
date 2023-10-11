@@ -1,5 +1,6 @@
 package com.project.chagok.backend.scraper.dto;
 
+import com.project.chagok.backend.scraper.constants.SiteType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,6 @@ public class ContestDto {
     private String host;
     private String imgUrl;
     private String content;
+    private SiteType siteType;
 
 }

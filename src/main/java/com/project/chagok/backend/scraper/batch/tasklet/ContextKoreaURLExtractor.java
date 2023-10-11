@@ -46,7 +46,7 @@ public class ContextKoreaURLExtractor extends URLExtractorBase{
 
         for (Element listItem : listElements) {
             String scrapItemUrl = listItem.absUrl("href");
-            if (visitor.isVisit(scrapItemUrl)) {
+            if (isVisit(scrapItemUrl)) {
                 return willParseUrls;
             }
 

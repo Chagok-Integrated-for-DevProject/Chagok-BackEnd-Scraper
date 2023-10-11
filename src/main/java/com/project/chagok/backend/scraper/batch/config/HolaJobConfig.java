@@ -2,7 +2,7 @@ package com.project.chagok.backend.scraper.batch.config;
 
 import com.project.chagok.backend.scraper.batch.listener.VisitorListener;
 import com.project.chagok.backend.scraper.batch.processor.ProjectStudyItemProcessor;
-import com.project.chagok.backend.scraper.batch.reader.HolaItemReader;
+import com.project.chagok.backend.scraper.batch.reader.scraper.HolaScraper;
 import com.project.chagok.backend.scraper.batch.sitevisit.HolaVisitor;
 import com.project.chagok.backend.scraper.batch.tasklet.HolaURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ProejctStudyItemWriter;
@@ -48,10 +48,10 @@ public class HolaJobConfig {
 
     @Bean
     @Qualifier("secondHolaChunkStep")
-    public Step secondHolaChunkStep(HolaItemReader holaItemReader, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
+    public Step secondHolaChunkStep(HolaScraper holaScraper, ProejctStudyItemWriter proejctStudyItemWriter, ProjectStudyItemProcessor projectStudyItemProcessor) {
         return new StepBuilder("secondHolaChunkStep", jobRepository)
                 .<StudyProjectDto, StudyProjectDto>chunk(3, transactionManager)
-                .reader(holaItemReader)
+                .reader(holaScraper)
                 .processor(projectStudyItemProcessor)
                 .writer(proejctStudyItemWriter)
                 .faultTolerant()

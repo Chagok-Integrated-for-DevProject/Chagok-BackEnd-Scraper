@@ -29,11 +29,6 @@ public class HolaVisitor implements SiteVisitor{
     }
 
     @Override
-    public boolean isVisit(String url) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean isVisit(LocalDateTime createdTime) {
         return visitTimeIdx.isAfter(createdTime) || visitTimeIdx.isEqual(createdTime);
     }

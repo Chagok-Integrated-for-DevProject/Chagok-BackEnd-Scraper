@@ -64,7 +64,7 @@ public class OkkyURLExtractor extends URLExtractorBase{
                     // url 구성
                     String boardUrl = "https://okky.kr/articles/" + boardId;
 
-                    if (!validateDate(createdDate) || visitor.isVisit(createdDate)) {
+                    if (!validateDate(createdDate) || isVisit(createdDate)) {
                         return willParseUrls;
                     }
 

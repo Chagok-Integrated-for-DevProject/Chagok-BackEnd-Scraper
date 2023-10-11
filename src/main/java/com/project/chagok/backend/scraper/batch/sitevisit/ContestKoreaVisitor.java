@@ -21,7 +21,7 @@ public class ContestKoreaVisitor implements SiteVisitor {
     @PostConstruct
     @Override
     public void init() {
-        List<Contest> contestList = contestRepository.findAllInAMonth();
+        List<Contest> contestList = contestRepository.findAllOpenContests();
 
         visitPages = contestList.stream()
                 .map(contest -> extractBoardIdx(contest.getSourceUrl()))
@@ -43,10 +43,5 @@ public class ContestKoreaVisitor implements SiteVisitor {
 
         visitPages.add(boardIdx);
         return false;
-    }
-
-    @Override
-    public boolean isVisit(LocalDateTime createdTime) {
-        throw new UnsupportedOperationException();
     }
 }
