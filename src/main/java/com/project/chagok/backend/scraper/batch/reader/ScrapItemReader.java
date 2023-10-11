@@ -32,6 +32,7 @@ public abstract class ScrapItemReader<T> implements ItemReader<T>, StepExecution
             return getBoardDto(boardUrl);
         }
 
+
         return null;
     }
 
