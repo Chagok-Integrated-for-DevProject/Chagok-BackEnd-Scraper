@@ -3,7 +3,6 @@ package com.project.chagok.backend.scraper.batch.tasklet;
 import com.project.chagok.backend.scraper.batch.constants.JobSiteType;
 import com.project.chagok.backend.scraper.batch.sitevisit.ContestKoreaVisitor;
 import com.project.chagok.backend.scraper.constants.TimeDelay;
-import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,9 +16,9 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 @Component
-public class ContextKoreaURLExtractor extends URLExtractorBase{
+public class ContestKoreaURLExtractor extends URLExtractorBase{
 
-    public ContextKoreaURLExtractor(ContestKoreaVisitor visitor) {
+    public ContestKoreaURLExtractor(ContestKoreaVisitor visitor) {
         super(visitor);
     }
 
@@ -47,16 +46,10 @@ public class ContextKoreaURLExtractor extends URLExtractorBase{
         for (Element listItem : listElements) {
             String scrapItemUrl = listItem.absUrl("href");
             if (isVisit(scrapItemUrl)) {
-                return willParseUrls;
+                continue;
             }
 
             willParseUrls.add(scrapItemUrl);
-
-            try {
-                sleep(TimeDelay.SHORT);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         }
 
         return willParseUrls;

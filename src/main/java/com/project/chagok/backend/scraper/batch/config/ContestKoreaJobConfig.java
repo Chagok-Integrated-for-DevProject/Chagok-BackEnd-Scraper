@@ -1,7 +1,7 @@
 package com.project.chagok.backend.scraper.batch.config;
 
 import com.project.chagok.backend.scraper.batch.reader.scraper.ContestKoreaScraper;
-import com.project.chagok.backend.scraper.batch.tasklet.ContextKoreaURLExtractor;
+import com.project.chagok.backend.scraper.batch.tasklet.ContestKoreaURLExtractor;
 import com.project.chagok.backend.scraper.batch.writer.ContestItemWriter;
 import com.project.chagok.backend.scraper.dto.ContestDto;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +37,9 @@ public class ContestKoreaJobConfig {
 
     @Bean
     @Qualifier("firstContestKoreaStep")
-    public Step firstContestStep(ContextKoreaURLExtractor contextKoreaURLExtractor) {
+    public Step firstContestStep(ContestKoreaURLExtractor contestKoreaURLExtractor) {
         return new StepBuilder("firstContestKoreaStep", jobRepository)
-                .tasklet(contextKoreaURLExtractor, transactionManager)
+                .tasklet(contestKoreaURLExtractor, transactionManager)
                 .build();
     }
 
