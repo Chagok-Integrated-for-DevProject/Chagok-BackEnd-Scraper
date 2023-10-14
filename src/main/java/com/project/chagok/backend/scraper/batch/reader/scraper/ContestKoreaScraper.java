@@ -33,7 +33,7 @@ public class ContestKoreaScraper extends ScrapItemReader<ContestDto> implements 
                 .endDate(getEndReceptionDate(parser))
                 .host(getHost(parser))
                 .content(getContent(parser))
-                .url(getMainImgUrl(parser))
+                .imgUrl(getMainImgUrl(parser))
                 .siteType(SiteType.CONTEST_KOREA)
                 .build();
     }
