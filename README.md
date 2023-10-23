@@ -21,8 +21,9 @@ ORM Framework<br>
 <img src="https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 
 데이터 수집<br>
-<img src="https://img.shields.io/badge/String Batch-6DB33F?style=for-the-badge&logo=spring&logoColor=white"><br>
-<img src="https://img.shields.io/badge/String Scheduler-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Batch-6DB33F?style=for-the-badge&logo=spring&logoColor=white"><br>
+<img src="https://img.shields.io/badge/Spring Scheduler-6DB33F?style=for-the-badge&logo=spring&logoColor=white"><br>
+<img src="https://img.shields.io/badge/JSoup-007396?style=for-the-badge&logo=Java&logoColor=white">
 
 Build Tool<br>
 <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
@@ -35,6 +36,30 @@ CI/CD 구축 파이프라인<br>
 
 <br><br>
 ### 서버개요도
-<img src="https://private-user-images.githubusercontent.com/96948245/276248001-6511138a-614d-44ae-95f2-43a0f65071b4.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTc2MzI5MjcsIm5iZiI6MTY5NzYzMjYyNywicGF0aCI6Ii85Njk0ODI0NS8yNzYyNDgwMDEtNjUxMTEzOGEtNjE0ZC00NGFlLTk1ZjItNDNhMGY2NTA3MWI0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzEwMTglMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMxMDE4VDEyMzcwN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWVhNDE4NWJmMTEzYWNmZTQ4NjZhYjhjMjZkNzc1MTdhYzI1MDgwNDJlYjBlOWNmMWM4MjBmODhkZWVlZGE3NmQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.v-K2E9VmPMXaNzyrLfTWuQUeLmdkksxsoUo9trrxYSs">
+![Chagok Scraper 서버 개요도](./overview/images/스크랩서버%20개요도.png)
 
 ### 데이터 수집 프로세스
+![데이터 수집 프로세스](./overview/images/데이터%20수집%20프로세스.png)
+
+
+## 데이터 수집 스케마
+
+#### IT공모전(해커톤)
+* 제목
+* 모집 시작일
+* 모집 종료일
+* 주최 기관
+* 본문
+* 이미지 Url
+
+#### 프로젝트/스터디
+* 제목
+* 개시일
+* 본문
+* 사이트 유형
+* 기술 태그 리스트
+* 프로젝트 및 스터디의 카테고리 유형
+
+
+#### 순서도
+![Chagok Scraper 순서도](./overview/images/scraper%20순서도.png)

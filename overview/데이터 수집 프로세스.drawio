@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" modified="2023-10-23T03:35:30.530Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="2i1gFy0kUhDuUR6omEVq" version="22.0.6" type="device">
+  <diagram id="tF9ujNriHDNZFKITmosS" name="페이지-1">
+    <mxGraphModel dx="957" dy="892" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-1" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;데이터 수집 프로세스&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="30" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="z7QD32nlu3vgzuqyRWg1-2" target="z7QD32nlu3vgzuqyRWg1-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-2" value="input" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="163.13" y="120" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="z7QD32nlu3vgzuqyRWg1-3" target="z7QD32nlu3vgzuqyRWg1-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-3" value="process" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="163.13" y="295" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-4" value="output" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="163.13" y="464" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-8" value="&lt;h1&gt;Input&lt;br&gt;&lt;/h1&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;스크랩하여, 필요한 데이터 수집&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;IT 공모전, 스터디, 프로젝트에 따른 데이터 스케마에 대해 데이터를 수집 &lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="100" width="420" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-9" value="&lt;h1&gt;Process&lt;/h1&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;수집한 데이터에 대하여, 데이터 전처리&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;수집한 데이터의 html escape문자 unescape,&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;수집한 글에 대하여, 기술 스택 태그화&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="346" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-10" value="&lt;h1&gt;Output&lt;/h1&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;데이터 저장&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;전처리 된 데이터에 대하여, JPA를 통해, DB에 글 저장&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="420" width="380" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="z7QD32nlu3vgzuqyRWg1-14" value="" style="shape=partialRectangle;whiteSpace=wrap;html=1;bottom=1;right=1;left=1;top=0;fillColor=none;routingCenterX=-0.5;rotation=-90;strokeColor=#3333FF;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="150" y="295" width="350" height="36.25" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
