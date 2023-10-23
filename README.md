@@ -62,4 +62,4 @@ CI/CD 구축 파이프라인<br>
 
 
 ## 순서도
-![Chagok Scraper 순서도](./overview/images/scarper%20순서도.png)
+![Chagok Scraper 순서도](./overview/images/scraper%20순서도.png)

@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-23T04:50:10.451Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="Wu0ZcMCSlco0uF0VaxPT" version="22.0.6" type="device">
+<mxfile host="app.diagrams.net" modified="2023-10-23T04:52:29.042Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="cHVAgh_3itaV_UaJiaHG" version="22.0.6" type="device">
   <diagram name="페이지-1" id="qpX3pxss1zNDdee86AM-">
     <mxGraphModel dx="2074" dy="1106" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -10,7 +10,7 @@
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="HTbDmQJBQSAlxIpeWF-5-23" target="HTbDmQJBQSAlxIpeWF-5-26">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HTbDmQJBQSAlxIpeWF-5-23" value="&lt;div&gt;각 사이트의 &lt;br&gt;&lt;/div&gt;&lt;div&gt;데이터를 얻을 글 Url 수집&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="HTbDmQJBQSAlxIpeWF-5-23" value="수집해야 할 Url 리스트 반환" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1165" y="260" width="170" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="HTbDmQJBQSAlxIpeWF-5-24" target="HTbDmQJBQSAlxIpeWF-5-47">
