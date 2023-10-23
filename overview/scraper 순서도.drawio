@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-23T04:39:44.448Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="HmeTv_yEcz-muzHGWOB3" version="22.0.6" type="device">
+<mxfile host="app.diagrams.net" modified="2023-10-23T04:50:10.451Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="Wu0ZcMCSlco0uF0VaxPT" version="22.0.6" type="device">
   <diagram name="페이지-1" id="qpX3pxss1zNDdee86AM-">
     <mxGraphModel dx="2074" dy="1106" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -28,34 +28,40 @@
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="HTbDmQJBQSAlxIpeWF-5-26" target="HTbDmQJBQSAlxIpeWF-5-91">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HTbDmQJBQSAlxIpeWF-5-26" value="글 Url" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="360" width="300" height="420" as="geometry" />
+        <mxCell id="HTbDmQJBQSAlxIpeWF-5-26" value="수집된 게시글 Url" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="360" width="300" height="480" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="HTbDmQJBQSAlxIpeWF-5-26" source="HTbDmQJBQSAlxIpeWF-5-29" target="HTbDmQJBQSAlxIpeWF-5-68">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-29" value="&lt;div&gt;해당 글의 스케마에 따른&lt;/div&gt;&lt;div&gt;데이터 수집&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="HTbDmQJBQSAlxIpeWF-5-26">
-          <mxGeometry x="75" y="70" width="150" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="HTbDmQJBQSAlxIpeWF-5-30" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="HTbDmQJBQSAlxIpeWF-5-26" target="HTbDmQJBQSAlxIpeWF-5-29">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="150" y="24" as="sourcePoint" />
-            <mxPoint x="150" y="64" as="targetPoint" />
-          </mxGeometry>
+          <mxGeometry x="75" y="165" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="HTbDmQJBQSAlxIpeWF-5-26" source="HTbDmQJBQSAlxIpeWF-5-68" target="HTbDmQJBQSAlxIpeWF-5-76">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-68" value="&lt;div&gt;html unescape, &lt;br&gt;&lt;/div&gt;&lt;div&gt;기술 태그 추출&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="HTbDmQJBQSAlxIpeWF-5-26">
-          <mxGeometry x="75" y="190" width="150" height="60" as="geometry" />
+          <mxGeometry x="75" y="270" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-76" value="DB 저장" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="HTbDmQJBQSAlxIpeWF-5-26">
-          <mxGeometry x="75" y="310" width="150" height="60" as="geometry" />
+          <mxGeometry x="75" y="380" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-80" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="HTbDmQJBQSAlxIpeWF-5-26" source="HTbDmQJBQSAlxIpeWF-5-76" target="HTbDmQJBQSAlxIpeWF-5-26">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="260" y="410" as="sourcePoint" />
             <mxPoint x="310" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HTbDmQJBQSAlxIpeWF-5-95" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="HTbDmQJBQSAlxIpeWF-5-26" source="HTbDmQJBQSAlxIpeWF-5-93" target="HTbDmQJBQSAlxIpeWF-5-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HTbDmQJBQSAlxIpeWF-5-93" value="수집할 게시글 Url 접근" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="HTbDmQJBQSAlxIpeWF-5-26">
+          <mxGeometry x="75" y="80" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="HTbDmQJBQSAlxIpeWF-5-96" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="HTbDmQJBQSAlxIpeWF-5-26" target="HTbDmQJBQSAlxIpeWF-5-93">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="24" as="sourcePoint" />
+            <mxPoint x="150" y="70" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="HTbDmQJBQSAlxIpeWF-5-34" target="HTbDmQJBQSAlxIpeWF-5-36">
@@ -128,7 +134,7 @@
           <mxGeometry x="740" y="620" width="40" height="30" as="geometry" />
         </mxCell>
         <mxCell id="HTbDmQJBQSAlxIpeWF-5-91" value="다음 스케줄링 대기" style="strokeWidth=1;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="1155" y="830" width="190" height="60" as="geometry" />
+          <mxGeometry x="1155" y="880" width="190" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

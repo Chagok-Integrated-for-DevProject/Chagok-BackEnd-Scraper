@@ -61,5 +61,5 @@ CI/CD 구축 파이프라인<br>
 * 프로젝트 및 스터디의 카테고리 유형
 
 
-#### 순서도
-![Chagok Scraper 순서도](./overview/images/scraper%20순서도.png)
+## 순서도
+![Chagok Scraper 순서도](./overview/images/scarper%20순서도.png)
