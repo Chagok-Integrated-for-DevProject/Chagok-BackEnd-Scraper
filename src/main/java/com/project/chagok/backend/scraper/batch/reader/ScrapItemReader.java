@@ -29,7 +29,7 @@ public abstract class ScrapItemReader<T> implements ItemReader<T>, StepExecution
 
             sleep(TimeDelay.MEDIUM);
 
-            return getBoardDto(boardUrl);
+            return getBoard(boardUrl);
         }
 
 
@@ -59,5 +59,5 @@ public abstract class ScrapItemReader<T> implements ItemReader<T>, StepExecution
         return boardUrls.get(idx++);
     }
 
-    public abstract T getBoardDto(String boardUrl) throws IOException;
+    public abstract T getBoard(String boardUrl) throws IOException;
 }

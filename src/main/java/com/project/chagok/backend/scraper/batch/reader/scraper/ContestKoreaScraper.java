@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ContestKoreaScraper extends ScrapItemReader<ContestDto> implements ContestBoardExtractor<Document> {
 
     @Override
-    public ContestDto getBoardDto(String boardUrl) throws IOException {
+    public ContestDto getBoard(String boardUrl) throws IOException {
 
         Document parser = Jsoup
                     .connect(boardUrl)

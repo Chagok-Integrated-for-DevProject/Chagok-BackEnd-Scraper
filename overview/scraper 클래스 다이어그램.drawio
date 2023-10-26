@@ -1,0 +1,118 @@
+<mxfile host="app.diagrams.net" modified="2023-10-26T10:38:11.152Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="jqpP6Rof2zeUw2M1paG9" version="22.0.8" type="device">
+  <diagram name="페이지-1" id="PUi4P7MVSnyCJRqB3xBY">
+    <mxGraphModel dx="2074" dy="1106" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Heu1-gWZ13qQovFkZg09-15" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Tasklet&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ execute(StepContribution, ChunkContext) : RepeatStatus&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="445" y="100" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-16" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;&lt;i&gt;URLExtractorBase&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ visitor : SiteVisitor&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ execute(StepContribution, ChunkContext ) : RepeatStatus&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getSiteType(ChunkContext) : JobSiteType&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ saveURLInContext(ChunkContext, willParseUrls : List&amp;lt;String&amp;gt;)&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ extractURL(JobSiteType) : List&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ isVisit()&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="440" y="280" width="360" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-17" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;SiteVisitor&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ isVisit(String) : boolean&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ isVisit(LocalDateTime) : boolean&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ init()&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="20" y="360" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-20" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-16" target="Heu1-gWZ13qQovFkZg09-15">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-30" y="330" as="sourcePoint" />
+            <mxPoint x="130" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-26" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ItemReader&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ read()&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1114" y="100" width="190" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-27" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;&lt;i&gt;ScrapItemReader&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ visitor : SiteVisitor&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getBoard(bordUrl : String)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ read()&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ beforeStep(StepExecution)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ afterStep(StepExecution)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1229" y="260" width="181" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-28" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;StepExecutionLisitner&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ beforeStep(StepExecution)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ afterStep(StepExecution)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1334" y="90" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-29" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-27" target="Heu1-gWZ13qQovFkZg09-26">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1154" y="335" as="sourcePoint" />
+            <mxPoint x="1154" y="253" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-30" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-27" target="Heu1-gWZ13qQovFkZg09-28">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1314" y="-183" as="sourcePoint" />
+            <mxPoint x="1314" y="-265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-31" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ContestBoardExtractor&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getTitle(parser : T) : String&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getStartReceptionDate(parser : T) : LocalDate&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getEndReceptionDate(parser : T)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getHost(parser : T)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getContent(parser : T)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getMainImgUrl(parser : T)&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="900" y="410" width="270" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-34" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ProjectStudyBoardExtractor&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getTitle(parser : T) : String&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getCreatedTime(parser : T) : LocalDateTime&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getTechStacks(parser : T) : LocalDateTime&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getSiteType(parser : T) : SiteType&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getCategoryType(parser : T) : CategoryType&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getConent(parser : T) : String&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1470" y="340" width="260" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-35" value="Contest Scraper" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="970" y="633" width="300" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-37" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Heu1-gWZ13qQovFkZg09-35">
+          <mxGeometry y="26" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-38" value="&lt;div&gt;&amp;nbsp;+ getBoard(bordUrl : String)&lt;/div&gt;&lt;div&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getTitle(parser : T) : String&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getStartReceptionDate(parser : T) : LocalDate&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getEndReceptionDate(parser : T) : LocalDate&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getHost(parser : T) : String&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getContent(parser : T) : String&lt;br&gt;&lt;/p&gt;&amp;nbsp;+ getMainImgUrl(parser : T) : String&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Heu1-gWZ13qQovFkZg09-35">
+          <mxGeometry y="34" width="300" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-39" value="Project / Study Scraper" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1319" y="633" width="310" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-41" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Heu1-gWZ13qQovFkZg09-39">
+          <mxGeometry y="26" width="310" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-42" value="&lt;div&gt;&amp;nbsp;+ getBoard(bordUrl : String)&lt;/div&gt;&lt;div&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getTitle(parser : T) : String&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getCreatedTime(parser : T) : LocalDateTime&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getTechStacks(parser : T) : LocalDateTime&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getSiteType(parser : T) : SiteType&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getCategoryType(parser : T) : CategoryType&lt;br&gt;&lt;/p&gt;&amp;nbsp;+ getConent(parser : T) : String&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Heu1-gWZ13qQovFkZg09-39">
+          <mxGeometry y="34" width="310" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-43" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.706;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-35" target="Heu1-gWZ13qQovFkZg09-27">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1324" y="553" as="sourcePoint" />
+            <mxPoint x="1484" y="553" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-44" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-39" target="Heu1-gWZ13qQovFkZg09-27">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1159" y="543" as="sourcePoint" />
+            <mxPoint x="1319" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-45" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-35" target="Heu1-gWZ13qQovFkZg09-31">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1279" y="270" as="sourcePoint" />
+            <mxPoint x="1219" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-46" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-39" target="Heu1-gWZ13qQovFkZg09-34">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1134" y="643" as="sourcePoint" />
+            <mxPoint x="1003" y="543" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-47" value="Contest / Project / Study URL Extractor" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="590" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-48" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Heu1-gWZ13qQovFkZg09-47">
+          <mxGeometry y="26" width="250" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-49" value="&lt;div&gt;+ extractURL(JobSiteType jobSiteType) : List&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Heu1-gWZ13qQovFkZg09-47">
+          <mxGeometry y="34" width="250" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-50" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-47" target="Heu1-gWZ13qQovFkZg09-16">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="549" y="1233" as="sourcePoint" />
+            <mxPoint x="539" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Heu1-gWZ13qQovFkZg09-73" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;entryX=0.51;entryY=-0.018;entryDx=0;entryDy=0;entryPerimeter=0;exitX=-0.006;exitY=0.267;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="Heu1-gWZ13qQovFkZg09-16" target="Heu1-gWZ13qQovFkZg09-17">
+          <mxGeometry x="-1" y="3" relative="1" as="geometry">
+            <mxPoint x="400" y="320" as="sourcePoint" />
+            <mxPoint x="840" y="460" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="173" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

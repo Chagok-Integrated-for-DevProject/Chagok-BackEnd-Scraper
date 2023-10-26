@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class HolaScraper extends ScrapItemReader<StudyProjectDto> implements ProjectStudyBoardExtractor<JsonNode> {
 
     @Override
-    public StudyProjectDto getBoardDto(String boardUrl) throws IOException {
+    public StudyProjectDto getBoard(String boardUrl) throws IOException {
 
         // boardId 값으로 api 주소에 대입해서 return
         String jsonUrl = extractBoardJsonFromUrl(boardUrl);

@@ -21,7 +21,7 @@ import java.util.List;
 public class InflearnScraper extends ScrapItemReader<StudyProjectDto> implements ProjectStudyBoardExtractor<Document> {
 
     @Override
-    public StudyProjectDto getBoardDto(String boardUrl) throws IOException {
+    public StudyProjectDto getBoard(String boardUrl) throws IOException {
 
         Document parser = Jsoup
                 .connect(boardUrl)

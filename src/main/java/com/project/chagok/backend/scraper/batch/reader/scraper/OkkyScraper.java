@@ -25,7 +25,7 @@ public class OkkyScraper extends ScrapItemReader<StudyProjectDto> implements Pro
     private final String baseUrl = "https://okky.kr/community/gathering";
 
     @Override
-    public StudyProjectDto getBoardDto(String boardUrl) throws IOException {
+    public StudyProjectDto getBoard(String boardUrl) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper().configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
 
