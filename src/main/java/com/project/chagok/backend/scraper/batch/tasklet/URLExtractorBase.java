@@ -42,7 +42,7 @@ public abstract class URLExtractorBase implements Tasklet {
         BatchContextUtil.saveDataInContext(chunkContext, BatchUtil.SITE_URLS, willParseUrls);
     }
 
-    abstract List<String> extractURL(JobSiteType jobSiteType);
+    abstract List<String> extractURL(JobSiteType jobSiteType) throws Exception;
 
     public boolean isVisit(LocalDateTime localDateTime) {
         return visitor.isVisit(localDateTime);

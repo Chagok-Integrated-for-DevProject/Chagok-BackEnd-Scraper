@@ -59,5 +59,5 @@ public abstract class ScrapItemReader<T> implements ItemReader<T>, StepExecution
         return boardUrls.get(idx++);
     }
 
-    public abstract T getBoard(String boardUrl) throws IOException;
+    public abstract T getBoard(String boardUrl) throws Exception;
 }
