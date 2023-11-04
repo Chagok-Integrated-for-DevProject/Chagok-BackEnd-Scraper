@@ -54,6 +54,7 @@ kotlin:
 express:
     익스프레스
     express
+    expressjs
 mysql:
     mysql
 mongodb:
