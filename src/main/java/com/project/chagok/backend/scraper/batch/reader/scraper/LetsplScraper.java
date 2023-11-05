@@ -24,16 +24,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-@Slf4j
 public class LetsplScraper extends ScrapItemReader<StudyProjectDto> implements ProjectStudyBoardExtractor<JsonNode>{
 
     private static final String boardApiUrl = "https://letspl.me/find_project/overview";
     private static final String boardBaseUrl = "https://letspl.me/project/";
-    private static HttpClient client = HttpClient.newHttpClient();
     private ObjectMapper om = new ObjectMapper();
 
     @Override
     public StudyProjectDto getBoard(String boardUrl) throws Exception {
+
         String projectNo = boardUrl;
 
         String reqProejctJsonStr = om.writeValueAsString(new LetsplOverviewDto(projectNo));
@@ -44,6 +43,8 @@ public class LetsplScraper extends ScrapItemReader<StudyProjectDto> implements P
                 .POST(HttpRequest.BodyPublishers.ofString(reqProejctJsonStr))
                 .setHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
                 .build();
+
+        HttpClient client = HttpClient.newHttpClient();
 
         String boardJsonStr = client.send(boardJsonRequest, HttpResponse.BodyHandlers.ofString()).body();
 
@@ -64,8 +65,6 @@ public class LetsplScraper extends ScrapItemReader<StudyProjectDto> implements P
                 .techList(getTechStacks(boardJson))
                 .noTagContent(noTagContent)
                 .build();
-
-        log.info("parsing: " + studyProjectDto.toString());
 
         return studyProjectDto;
     }

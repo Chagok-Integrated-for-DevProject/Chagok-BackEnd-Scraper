@@ -27,10 +27,12 @@ public class ProjectStudyItemProcessor implements ItemProcessor<StudyProjectDto,
     @Override
     public StudyProjectDto process(StudyProjectDto item) {
 
-        // html unescape
-        item.setContent(HtmlUtils.htmlUnescape(item.getContent()));
-        item.setTitle(HtmlUtils.htmlUnescape(item.getTitle()));
+        extractTechs(item);
 
+        return item;
+    }
+
+    public void extractTechs(StudyProjectDto item) {
         HashSet<String> skills = new HashSet<>();
         // 본문 토큰화
         List<String> wordTokens = tokenizeService.tokenizeKorAndEng(item.getNoTagContent());
@@ -50,7 +52,5 @@ public class ProjectStudyItemProcessor implements ItemProcessor<StudyProjectDto,
             }
         }
         item.setTechList(new ArrayList<>(skills));
-
-        return item;
     }
 }

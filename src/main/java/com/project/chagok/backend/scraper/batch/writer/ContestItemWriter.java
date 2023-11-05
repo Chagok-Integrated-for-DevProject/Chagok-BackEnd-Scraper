@@ -9,7 +9,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class ContestItemWriter implements ItemWriter<ContestDto> {
 
@@ -17,7 +16,6 @@ public class ContestItemWriter implements ItemWriter<ContestDto> {
 
     @Override
     public void write(Chunk<? extends ContestDto> chunk) throws Exception {
-        log.info(chunk.toString());
         chunk.forEach(scrapService::saveContest);
     }
 }

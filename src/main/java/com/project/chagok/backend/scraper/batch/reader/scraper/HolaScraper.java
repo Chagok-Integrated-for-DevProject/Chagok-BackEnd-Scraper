@@ -13,6 +13,10 @@ import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,22 +29,23 @@ import java.util.regex.Pattern;
 public class HolaScraper extends ScrapItemReader<StudyProjectDto> implements ProjectStudyBoardExtractor<JsonNode> {
 
     @Override
-    public StudyProjectDto getBoard(String boardUrl) throws IOException {
+    public StudyProjectDto getBoard(String boardUrl) throws Exception {
 
         // boardId 값으로 api 주소에 대입해서 return
         String jsonUrl = extractBoardJsonFromUrl(boardUrl);
 
-        Document parser = Jsoup
-                .connect(jsonUrl)
-                .ignoreContentType(true)
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-                .get();
+        HttpClient client = HttpClient.newHttpClient();
 
-        // board json 파싱 & jsoup에서 특정 escape 문자열을 encoding 한 것에 \" 로 decoding
-        String boardJsonString = parser.select("body").first().html().replaceAll("\"\\\\&quot;|\\\\&quot;\"", "\\\\\"");
+        HttpRequest boardJsonRequest = HttpRequest.newBuilder()
+                .setHeader("Accept", "application/json")
+                .setHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
+                .uri(URI.create(jsonUrl))
+                .GET().build();
+
+        String boardJsonStr = client.send(boardJsonRequest, HttpResponse.BodyHandlers.ofString()).body();
 
         ObjectMapper objectMapper = new ObjectMapper().configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
-        JsonNode boardJson = objectMapper.readTree(boardJsonString);
+        JsonNode boardJson = objectMapper.readTree(boardJsonStr);
 
         String content = getContent(boardJson);
         String noTagContent = Jsoup.parse(content).text();
